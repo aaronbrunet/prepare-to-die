@@ -4,37 +4,62 @@ import Card from './components/Card'
 import Result from './components/Result'
 import './App.css';
 
-function App() {
-  const [roll,setRoll] = useState()
-  const [last,setLast] = useState([])
+const Div = styled.div`
+  color: white;
+`
 
-  const LastRoll = styled.span`
+const Heading = styled.h1`
+  color: white;
+  font-size: 36pt;
+`
+const LastRoll = styled.span`
     margin: 0 10px;
-  `
+`
+const diceList = 
+  [{name: 'd4',sides: 4, qty:1},
+  {name: 'd6',sides: 6, qty:1},
+  {name: 'd8',sides: 8, qty:1},
+  {name: 'd10',sides: 10, qty:1},
+  {name: 'd12',sides: 12, qty:1},
+  {name: 'd20',sides: 20, qty:1},
+  {name: 'Percentile',sides: 100, qty:1}]
 
-  const diceList = 
-  [{name: 'D4',sides: 4},
-  {name: 'D6',sides: 6},
-  {name: 'D8',sides: 8},
-  {name: 'D10',sides: 10},
-  {name: 'D12',sides: 12},
-  {name: 'D20',sides: 20}]
+function App() {
+  const [roll,setRoll] = useState([])
+  const [last,setLast] = useState([])
+  const [selected,addSelected] = useState([])
+  const [qty,setQty] = useState(1)  
+  const [dice,setDice] = useState(diceList)  
 
-  const rolled = dice => {
+  const rolled = (dice,qty) => {    
     const min = 1
     const max = dice.sides
-    const rand = Math.round(min + Math.random() * (max - min))
-    setRoll(rand)
+    let rand = []    
+    for(let i=0;i<qty;i++){
+      rand.push(Math.round(min + Math.random() * (max - min)))    
+    }
+    setRoll([dice.name,dice.qty,rand])
     setLast([...last,rand])
   }
 
+  const increment = (die,inc) => {
+      let val = qty
+      val = qty + inc
+      val < 1 &&(val=1)
+      die.qty = val
+      setQty(val)
+      setDice(dice.map(dice =>(dice.name.match(die.name) ? die : dice )))
+      //setList(list.map(row => (row.id.match(updatedLink.id) ? updatedLink : row))) 
+  }
 
   return (
     <div className="App">
-      {diceList.map((die,index)=>
-        <Card die={die} rolled={rolled} key={index}/>
+      <Heading>R<span style={{color: 'red'}}>&</span>ller</Heading>
+      <div className="card-container">
+      {dice.map((die,index)=>
+        <Card die={die} rolled={rolled} increment={increment} qty={qty} key={index}/>
       )}
-      {last.length > 1 && (
+      {last.length < 0 && (
         <> 
       <h4>Last rolled:</h4>
       {last.map((roll,index)=>
@@ -42,6 +67,7 @@ function App() {
       )}
       </>
       )}
+      </div>
       <Result roll={roll} />
     </div>
   );
