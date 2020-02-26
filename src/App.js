@@ -1,12 +1,8 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components'
 import Card from './components/Card'
 import Result from './components/Result'
 import './App.css';
-
-const Div = styled.div`
-  color: white;
-`
 
 const Heading = styled.h1`
   color: white;
@@ -27,19 +23,22 @@ const diceList =
 function App() {
   const [roll,setRoll] = useState([])
   const [last,setLast] = useState([])
-  const [selected,addSelected] = useState([])
-  const [qty,setQty] = useState(1)  
+  //const [qty,setQty] = useState(1)  
   const [dice,setDice] = useState(diceList)  
 
   const rolled = (dice,qty) => {    
     const min = 1
     const max = dice.sides
-    let rand = []    
+    let roll = []    
+    let msg = ''
     for(let i=0;i<qty;i++){
-      rand.push(Math.round(min + Math.random() * (max - min)))    
+      let rand = Math.round(min + Math.random() * (max - min))
+      if(rand === max){rand +=' (Critical!)'}
+      roll.push(rand)
     }
-    setRoll([dice.name,dice.qty,rand])
-    setLast([...last,rand])
+    let sum = roll.reduce((a,b)=>parseInt(a)+parseInt(b),0)
+    setRoll([dice.name,dice.qty,roll,sum])
+    setLast([...last,roll])
   }
 
   const increment = (die,inc) => {
@@ -47,7 +46,7 @@ function App() {
       val = die.qty + inc
       val < 1 &&(val=1)
       die.qty = val
-      setQty(val)
+      //setQty(val)
       setDice(dice.map(dice =>(dice.name.match(die.name) ? die : dice )))
       //setList(list.map(row => (row.id.match(updatedLink.id) ? updatedLink : row))) 
   }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 const Title = styled.h3`
@@ -29,7 +29,7 @@ const Result = (props) => {
     const diceName = props.roll[0]
     const diceQty = props.roll[1]
     const results = props.roll[2]
-    let sum = 0
+    const sum = props.roll[3]
 
     //<Button>Roll</Button>
     return (
@@ -43,7 +43,7 @@ const Result = (props) => {
             </>            
         )
         }
-        <Title>Total: {results.reduce((a,b)=>a+b,0)}</Title>
+        <Title>Total: {sum}</Title>
         </>
         : <Title>Roll something!</Title>
         }        
