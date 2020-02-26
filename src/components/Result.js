@@ -7,7 +7,7 @@ const Title = styled.h3`
 `
 
 const Num = styled.h4`
-    color: white;
+    color: red;
     display: inline-block;
 `
 
@@ -29,17 +29,24 @@ const Result = (props) => {
     const diceName = props.roll[0]
     const diceQty = props.roll[1]
     const results = props.roll[2]
+    let sum = 0
 
-        
+    //<Button>Roll</Button>
     return (
     <>
-        <Title>Roll something!</Title>
-        <Button>Roll</Button>
-        {results &&(<><Title>{diceName==='Percentile' ? diceName : diceQty+diceName}</Title> {        
+        
+        
+        {results ? <><Title>{diceName==='Percentile' ? diceName : diceQty+diceName}</Title> {        
         results.map((result,index)=>
+            <>
             <Num key={index}>{result}{results.length > 0 && index < results.length-1 && (', ') }</Num>
+            </>            
         )
-        }</>)}        
+        }
+        <Title>Total: {results.reduce((a,b)=>a+b,0)}</Title>
+        </>
+        : <Title>Roll something!</Title>
+        }        
     </>
     )
 }

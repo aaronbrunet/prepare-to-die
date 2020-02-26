@@ -34,12 +34,13 @@ const Dice = styled.div`
     }
 `
 const Button = styled.button`
-    width: 60px;
-    height: 50px;
-    border-radius: 20px;
+    width: 40px;
+    height: 30px;
+    border-radius: 10px;
     border: 1px solid white;
     color: white;
     background: transparent;
+    margin-top: 30px;
     cursor: pointer;
     &:hover{
         color: #242527;
@@ -70,9 +71,9 @@ const Card = (props) => {
             <h4>{die.name}</h4>
             <p>Sides: {die.sides}</p>
             <span>
-            <button name="less" onClick={()=>props.increment(die,-1)}>{'<'}</button>
+            <Button name="less" onClick={()=>props.increment(die,-1)}>{'<'}</Button>
             {die.qty}
-            <button name="more" onClick={()=>props.increment(die,1)}>{'>'}</button>
+            <Button name="more" onClick={()=>props.increment(die,1)}>{'>'}</Button>
             </span>
             <Button onClick={()=>props.rolled(die,die.qty)}>Roll</Button>
         </Dice>        

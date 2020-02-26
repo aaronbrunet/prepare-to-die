@@ -43,8 +43,8 @@ function App() {
   }
 
   const increment = (die,inc) => {
-      let val = qty
-      val = qty + inc
+      let val = die.qty
+      val = die.qty + inc
       val < 1 &&(val=1)
       die.qty = val
       setQty(val)
@@ -57,7 +57,7 @@ function App() {
       <Heading>R<span style={{color: 'red'}}>&</span>ller</Heading>
       <div className="card-container">
       {dice.map((die,index)=>
-        <Card die={die} rolled={rolled} increment={increment} qty={qty} key={index}/>
+        <Card die={die} rolled={rolled} increment={increment} key={index}/>
       )}
       {last.length < 0 && (
         <> 
