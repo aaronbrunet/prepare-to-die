@@ -10,8 +10,7 @@ const Dice = styled.div`
     padding: 10px;
     color: white;
     cursor: pointer;
-    overflow: hidden;
-    
+    overflow: hidden;    
     transition: .2s ease-in-out;
     position: relative;
 
@@ -21,7 +20,7 @@ const Dice = styled.div`
         display: block;
     }
 
-    button {
+    Button {
         border: none;
         background: transparent;
         color: white;
@@ -30,6 +29,7 @@ const Dice = styled.div`
     &:hover, &:active {
         color: red;
         border-color: red;
+        transform: scale(1.2);
         
     }
 `
