@@ -30,13 +30,14 @@ const Result = (props) => {
     const diceQty = props.roll[1]
     const results = props.roll[2]
     const sum = props.roll[3]
+    const modifier = props.roll[4]
 
     //<Button>Roll</Button>
     return (
     <>
         
         
-        {results ? <><Title>{diceName==='Percentile' ? diceName : diceQty+diceName}</Title> {        
+    {results ? <><Title>{diceName==='Percentile' ? diceName : diceQty+diceName}{modifier &&(`- ${modifier}`)}</Title> {        
         results.map((result,index)=>
             <>
             <Num key={index}>{result}{results.length > 0 && index < results.length-1 && (', ') }</Num>

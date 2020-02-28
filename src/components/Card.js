@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import Modifier from './Modifier'
 
 
 const Dice = styled.div`
@@ -10,12 +11,11 @@ const Dice = styled.div`
     padding: 10px;
     color: white;
     cursor: pointer;
-    overflow: hidden;    
+    height: auto;
     transition: .2s ease-in-out;
     position: relative;
 
-    span {
-        bottom: -15px;        
+    span {        
         position:relative;
         display: block;
     }
@@ -50,22 +50,8 @@ const Button = styled.button`
 
 
 const Card = (props) => {
-    //const [qty,setQty] = useState(1)    
     let die = props.die
     
-    /*
-    const more = () => {
-        let val = qty
-        val = qty + 1
-        setQty(val)
-    }
-    const less = () => {
-        let val = qty
-        qty > 1 && ( val -= 1 )
-        setQty(val)
-    }
-    */
-//onClick={()=>props.rolled(die,1)}
     return (
         <Dice className="Dice" >
             <h4>{die.name}</h4>
@@ -75,7 +61,12 @@ const Card = (props) => {
             {die.qty}
             <Button name="more" onClick={()=>props.increment(die,1)}>{'>'}</Button>
             </span>
+            <Modifier die={die} />
             <Button onClick={()=>props.rolled(die,die.qty)}>Roll</Button>
+            <br/>
+            <Button onClick={()=>props.rolled(die,die.qty,'advantage')}>Advantage</Button>
+            <br/>
+            <Button onClick={()=>props.rolled(die,die.qty,'disadvantage')}>Disadvantage</Button>
         </Dice>        
     )
 }
