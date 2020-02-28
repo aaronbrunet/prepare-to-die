@@ -39,9 +39,8 @@ const Result = (props) => {
         
     {results ? <><Title>{diceName==='Percentile' ? diceName : diceQty+diceName}{modifier &&(`- ${modifier}`)}</Title> {        
         results.map((result,index)=>
-            <>
             <Num key={index}>{result}{results.length > 0 && index < results.length-1 && (', ') }</Num>
-            </>            
+                        
         )
         }
         <Title>Result: {sum}</Title>

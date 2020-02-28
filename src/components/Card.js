@@ -53,7 +53,7 @@ const Card = (props) => {
     let die = props.die
     
     return (
-        <Dice className="Dice" >
+        <Dice className="Dice" onClick={()=>console.log('clicked %s %d',die.name,die.sides)}>
             <h4>{die.name}</h4>
             <p>Sides: {die.sides}</p>
             <span>
