@@ -44,7 +44,7 @@ const Result = (props) => {
             </>            
         )
         }
-        <Title>Total: {sum}</Title>
+        <Title>Result: {sum}</Title>
         </>
         : <Title>Roll something!</Title>
         }        

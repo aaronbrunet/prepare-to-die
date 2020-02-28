@@ -8,10 +8,11 @@ const Dice = styled.div`
     border: 1px solid grey;
     border-radius: 10px;
     margin: 10px;
-    padding: 10px;
+    padding: 15px;
     color: white;
     cursor: pointer;
     height: auto;
+    width: auto;
     transition: .2s ease-in-out;
     position: relative;
 
@@ -34,8 +35,7 @@ const Dice = styled.div`
     }
 `
 const Button = styled.button`
-    width: 40px;
-    height: 30px;
+
     border-radius: 10px;
     border: 1px solid white;
     color: white;
