@@ -13,13 +13,13 @@ const LastRoll = styled.span`
     margin: 0 10px;
 `
 const diceList = 
-  [{name: 'd4',sides: 4, qty:1},
-  {name: 'd6',sides: 6, qty:1},
-  {name: 'd8',sides: 8, qty:1},
-  {name: 'd10',sides: 10, qty:1},
-  {name: 'd12',sides: 12, qty:1},
-  {name: 'd20',sides: 20, qty:1},
-  {name: 'Percentile',sides: 100, qty:1}]
+  [{name: 'd4',sides: 4, qty:1, modifier: ['none']},
+  {name: 'd6',sides: 6, qty:1, modifier: ['none']},
+  {name: 'd8',sides: 8, qty:1, modifier: ['none']},
+  {name: 'd10',sides: 10, qty:1, modifier: ['none']},
+  {name: 'd12',sides: 12, qty:1, modifier: ['none']},
+  {name: 'd20',sides: 20, qty:1, modifier: ['none']},
+  {name: 'Percentile',sides: 100, qty:1, modifier: ['none']}]
 
 function App() {
   const [roll,setRoll] = useState([])
@@ -37,51 +37,58 @@ function App() {
     return roll
   }
 
-  const advantage = (roll) => {
-    return roll[0] > roll[1] ? [roll,roll[0]] : [roll,roll[1]]
-  }
-  const disadvantage = (roll) => {
-    return roll[0] < roll[1] ? [roll,roll[0]] : [roll,roll[1]]
+  function addModifier(die,modifier) {
+    die.modifier.indexOf(modifier)===-1 && die.modifier.push(modifier)
+    setDice(dice.map(dice=>(dice.name.match(die.name) <=0 ? die : dice))) 
   }
 
   const rolled = (die,qty,modifier) => {    
     const min = 1
     const max = die.sides
     let roll = []
-    let sum
+    let result
     if(modifier){
+      addModifier(die,modifier)    
+      roll = randomise(min,max,2)
+      switch(modifier){
+        case 'advantage':
+          result = roll.reduce((a,b)=>Math.max(a,b))
+          break;
+        case 'disadvantage':
+          result = roll.reduce((a,b)=>Math.min(a,b))
+          break;
+        default:
+          console.log('Modifier triggered but no modifier passed')
+      }
+      //modifier === 'advantage' && ( sum = roll.reduce((a,b)=>Math.max(a,b)) )
+      //modifier === 'disadvantage' && ( sum = roll.reduce((a,b)=>Math.min(a,b)) )
+      /*
       if(modifier === 'advantage'){      
         die.modifier = modifier
-        setDice(dice.map(dice=>(dice.name.match(die.name) ? die : dice)))    
-        //roll=advantage(randomise(min,max,2)) 
-          roll = randomise(min,max,2)
+        setDice(dice.map(dice=>(dice.name.match(die.name) ? die : dice)))  
           sum = roll.reduce((a,b)=>Math.max(a,b))
           console.log(roll,sum)
-        }
-        if(modifier === 'disadvantage'){  
-          //roll=advantage(randomise(min,max,2)) 
-            roll = randomise(min,max,2)
-            sum = roll.reduce((a,b)=>Math.min(a,b))
-            console.log(roll,sum)
-          }
+      }
+      if(modifier === 'disadvantage'){  
+          sum = roll.reduce((a,b)=>Math.min(a,b))
+          console.log(roll,sum)
+      }
+      */
       //modifier === 'disadvantage' &&( roll=disadvantage(randomise(min,max,2)) )
       //console.log(roll)
       //setRoll([dice.name,dice.qty,roll,2])
     }
     else{
       roll = randomise(min,max,qty)
-      sum = roll.reduce((a,b)=>parseInt(a)+parseInt(b),0)
-      
+      result = roll.reduce((a,b)=>parseInt(a)+parseInt(b),0)      
     }
-    setRoll([die.name,die.qty,roll,sum,modifier])
-    
-    
-    setLast([...last,roll])
+    setRoll([die.name,die.qty,roll,result,modifier])
+    //setLast([...last,roll])
   }
 
   const increment = (die,inc) => {
       let val = die.qty + inc
-      val < 1 &&(val=1)
+      val < 1 && ( val = 1 )
       die.qty = val
       setDice(dice.map(dice =>(dice.name.match(die.name) ? die : dice )))
   }
@@ -91,7 +98,11 @@ function App() {
       <Heading>R<span style={{color: 'red'}}>&</span>ller</Heading>
       <div className="card-container">
         {dice.map((die,index)=>
-          <Card die={die} rolled={rolled} increment={increment} key={index}/>
+          <Card 
+            die={die} 
+            rolled={rolled} 
+            increment={increment} 
+            key={index}/>
         )}      
       </div>
       <Result roll={roll} />

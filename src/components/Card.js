@@ -57,11 +57,13 @@ const Card = (props) => {
             <h4>{die.name}</h4>
             <p>Sides: {die.sides}</p>
             <span>
-            <Button name="less" onClick={()=>props.increment(die,-1)}>{'<'}</Button>
-            {die.qty}
-            <Button name="more" onClick={()=>props.increment(die,1)}>{'>'}</Button>
+            <Button name="less" onClick={()=>props.increment(die,-1)}>{'<'}</Button>{die.qty}<Button name="more" onClick={()=>props.increment(die,1)}>{'>'}</Button>
             </span>
-            <Modifier die={die} />
+            {die.modifier.map((modifier,index)=>
+                //<Modifier mod={modifier} key={index}/>
+                <h4 key={index}>{modifier}</h4>
+            )}
+            
             <Button onClick={()=>props.rolled(die,die.qty)}>Roll</Button>
             <br/>
             <Button onClick={()=>props.rolled(die,die.qty,'advantage')}>Advantage</Button>
