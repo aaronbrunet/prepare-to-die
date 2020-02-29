@@ -83,31 +83,35 @@ const Card = (props) => {
             </span>
             {die.modifier.map((modifier,index)=>
                 //<Modifier mod={modifier} key={index}/>
-                <h4 key={index} onClick={()=>props.modifier(die,modifier)}>{modifier}</h4>
+                <Button key={index} onClick={()=>props.rmodifier(die,modifier)}>{modifier}</Button>
             )}
-
-            <form onSubmit={ event => {
-                event.preventDefault()
-                if (!modType||!mod) return
-                //props.modifier((mod+modType))
-                console.log(modType+mod)
-                props.modifier(die,(modType+mod))
-            }}>
-                {modType}<ModInput type='number' pattern='[0-9]*' placeholder='Enter modifier' name='setMod' value={mod} onChange={handleInput}/>
-                <ModList>
-                <Button type='button' onClick={()=>_setmod('+')} name='+'>+</Button>
-                <Button type='button' onClick={()=>_setmod('-')} name='-'>-</Button>
-                <Button type='button' onClick={()=>_setmod('*')} name='*'>*</Button>
-                <Button type='button' onClick={()=>_setmod('/')} name='/'>/</Button>
-                <Button>Add</Button>
-                </ModList>
-            </form>
-            
-            <Button onClick={()=>props.rolled(die,die.qty)}>Roll</Button>
+            {die.modifier.length < 3 ?
+            (<form onSubmit={ event => {
+                    event.preventDefault()
+                    if (!modType||!mod) return
+                    //props.modifier((mod+modType))
+                    console.log(modType+mod)                    
+                    props.modifier(die,(modType+mod))
+                    setMod('')
+                    setModType('')
+                }}>
+                    {modType}<ModInput type='number' pattern='[0-9]*' placeholder='Enter mod' value={mod} onChange={handleInput}/>
+                    <ModList>
+                    <Button type='button' onClick={()=>_setmod('+')} name='+'>+</Button>
+                    <Button type='button' onClick={()=>_setmod('-')} name='-'>-</Button>
+                    <Button type='button' onClick={()=>_setmod('*')} name='*'>*</Button>
+                    <Button type='button' onClick={()=>_setmod('/')} name='/'>/</Button>
+                    <Button>Add</Button>
+                    </ModList>
+                </form>)
+                :
+                <h4>Remove a modifier to add a new one</h4>
+            }
+            <Button onClick={()=>props.rolled(die,die.qty,die.modifier)}>Roll</Button>
             <br/>
-            <Button onClick={()=>props.rolled(die,die.qty,'advantage')}>Advantage</Button>
+            <Button onClick={()=>props.rolled(die,die.qty,['advantage'])}>Advantage</Button>
             <br/>
-            <Button onClick={()=>props.rolled(die,die.qty,'disadvantage')}>Disadvantage</Button>
+            <Button onClick={()=>props.rolled(die,die.qty,['disadvantage'])}>Disadvantage</Button>
         </Dice>        
     )
 }
