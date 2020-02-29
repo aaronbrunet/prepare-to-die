@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components'
 import Card from './components/Card'
 import Result from './components/Result'
+import Die from './components/Die'
 import './App.css';
 
 const Heading = styled.h1`
@@ -21,6 +22,7 @@ function App() {
   const [roll,setRoll] = useState([])
   //const [qty,setQty] = useState(1)  
   const [dice,setDice] = useState(diceList)  
+  const [die,setDie] = useState(null)
 
   const randomise = (min,max,qty) => {
     let roll = []
@@ -32,21 +34,26 @@ function App() {
     return roll
   }
 
-  const addModifier = (die,modifier) => {    
+  const _addModifier = (die,modifier) => {    
     if(die.modifier.length<3){
       die.modifier.indexOf(modifier)===-1 ? die.modifier.push(modifier) : die.modifier.pop(modifier)
       console.log(die.name)
       setDice(dice.map(dice=>(dice.name.match(die.name) ? die : dice))) 
     }
   }
-  const removeModifier = (die,modifier) => {
+  const _removeModifier = (die,modifier) => {
     let index = die.modifier.indexOf(modifier)
     index > -1 && die.modifier.splice(index,1)
     console.log(die.name)
     setDice(dice.map(dice=>(dice.name.match(die.name) ? die : dice))) 
   }
+  const _clearAll = (die) => {
+    die.modifier = []
+    setDice(dice.map(dice=>(dice.name.match(die.name) ? die: dice)))
+    setRoll([])
+  }
 
-  const rolled = (die,qty,modifier) => {    
+  const _rolled = (die,qty,modifier) => {    
     const min = 1
     const max = die.sides
     let roll = []
@@ -83,23 +90,6 @@ function App() {
             }
           }
       }
-      //modifier === 'advantage' && ( sum = roll.reduce((a,b)=>Math.max(a,b)) )
-      //modifier === 'disadvantage' && ( sum = roll.reduce((a,b)=>Math.min(a,b)) )
-      /*
-      if(modifier === 'advantage'){      
-        die.modifier = modifier
-        setDice(dice.map(dice=>(dice.name.match(die.name) ? die : dice)))  
-          sum = roll.reduce((a,b)=>Math.max(a,b))
-          console.log(roll,sum)
-      }
-      if(modifier === 'disadvantage'){  
-          sum = roll.reduce((a,b)=>Math.min(a,b))
-          console.log(roll,sum)
-      }
-      */
-      //modifier === 'disadvantage' &&( roll=disadvantage(randomise(min,max,2)) )
-      //console.log(roll)
-      //setRoll([dice.name,dice.qty,roll,2])
     }
     else{
       roll = randomise(min,max,qty)
@@ -107,14 +97,18 @@ function App() {
     }
     setRoll([die.name,die.qty,roll,result,modifier])
     console.log(roll)
-    //setLast([...last,roll])
   }
 
-  const increment = (die,inc) => {
+  const _increment = (die,inc) => {
       let val = die.qty + inc
       val < 1 && ( val = 1 )
       die.qty = val
       setDice(dice.map(dice =>(dice.name.match(die.name) ? die : dice )))
+  }
+
+  const _toggle = (newDie) => {
+      _clearAll(newDie)
+      newDie === die ? setDie(()=>null) : setDie(()=>newDie)
   }
 
   return (
@@ -124,14 +118,24 @@ function App() {
         {dice.map((die,index)=>
           <Card 
             die={die} 
-            rolled={rolled} 
-            increment={increment} 
-            modifier={addModifier}
-            rmodifier={removeModifier}
+            rolled={_rolled} 
+            increment={_increment} 
+            modifier={_addModifier}
+            rmodifier={_removeModifier}
+            setDie={_toggle}
             key={index}/>
         )}      
       </div>
-      <Result roll={roll} />
+      
+      {die && <Die 
+            die={die} 
+            rolled={_rolled} 
+            increment={_increment} 
+            modifier={_addModifier}
+            rmodifier={_removeModifier}
+            setDie={_toggle}
+            roll={roll}
+            />}
     </div>
   );
 }

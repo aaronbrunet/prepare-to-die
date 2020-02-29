@@ -3,12 +3,15 @@ import styled from 'styled-components'
 
 const Title = styled.h3`
     color: white;
-    size: 20pt;
+    font-size: 25pt;
+    margin: 5px;
 `
 
 const Num = styled.h4`
     color: red;
     display: inline-block;
+    font-size: 25pt;
+    margin: 5px;
 `
 
 const Button = styled.button`
@@ -35,14 +38,13 @@ const Result = (props) => {
     //<Button>Roll</Button>
     return (
     <>
-        
-        
-    {results ? <><Title>{diceName==='Percentile' ? diceName : diceQty+diceName}{modifier &&(` ( ${modifier} )`)}</Title> {        
-        results.map((result,index)=>
-            <Num key={index}>{result}{results.length > 0 && index < results.length-1 && (', ') }</Num>
-                        
-        )}
-        <Title>Result: {sum}</Title>
+    {results ? 
+        <>
+            <Title>{diceName==='Percentile' ? diceName : diceQty+diceName}{modifier && modifier.length > 0 &&(` ( ${modifier} )`)}</Title> 
+            {results.map((result,index)=>
+                <Num key={index}>{result}{results.length > 0 && index < results.length-1 && (', ') }</Num>                        
+            )}
+            <Title>Result: {sum}</Title>
         </>
         : <Title>Roll something!</Title>
         }        
