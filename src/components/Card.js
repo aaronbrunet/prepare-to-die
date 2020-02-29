@@ -47,10 +47,32 @@ const Button = styled.button`
         background: white;
     }
 `
+const ModList = styled.div`
+    display: block;
+    Button {
+        display: inline-block
+    }
+
+`
+
+const ModInput = styled.input`
+    width: 50%;
+`
+
 
 
 const Card = (props) => {
+    const [modType,setModType] = useState('')
+    const [mod,setMod] = useState('')
     let die = props.die
+
+    const _setmod = val => {
+        modType===val ? setModType('') : setModType(()=> val) 
+    }
+
+    const handleInput = input => {
+        setMod(input.target.value)
+    }
     
     return (
         <Dice className="Dice" onClick={()=>console.log('clicked %s %d',die.name,die.sides)}>
@@ -61,8 +83,25 @@ const Card = (props) => {
             </span>
             {die.modifier.map((modifier,index)=>
                 //<Modifier mod={modifier} key={index}/>
-                <h4 key={index}>{modifier}</h4>
+                <h4 key={index} onClick={()=>props.modifier(die,modifier)}>{modifier}</h4>
             )}
+
+            <form onSubmit={ event => {
+                event.preventDefault()
+                if (!modType||!mod) return
+                //props.modifier((mod+modType))
+                console.log(modType+mod)
+                props.modifier(die,(modType+mod))
+            }}>
+                {modType}<ModInput type='number' pattern='[0-9]*' placeholder='Enter modifier' name='setMod' value={mod} onChange={handleInput}/>
+                <ModList>
+                <Button type='button' onClick={()=>_setmod('+')} name='+'>+</Button>
+                <Button type='button' onClick={()=>_setmod('-')} name='-'>-</Button>
+                <Button type='button' onClick={()=>_setmod('*')} name='*'>*</Button>
+                <Button type='button' onClick={()=>_setmod('/')} name='/'>/</Button>
+                <Button>Add</Button>
+                </ModList>
+            </form>
             
             <Button onClick={()=>props.rolled(die,die.qty)}>Roll</Button>
             <br/>

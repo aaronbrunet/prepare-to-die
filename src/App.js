@@ -38,8 +38,9 @@ function App() {
   }
 
   function addModifier(die,modifier) {
-    die.modifier.indexOf(modifier)===-1 && die.modifier.push(modifier)
-    setDice(dice.map(dice=>(dice.name.match(die.name) <=0 ? die : dice))) 
+    die.modifier.indexOf(modifier)===-1 ? die.modifier.push(modifier) : die.modifier.pop(modifier)
+    console.log(die.name)
+    setDice(dice.map(dice=>(dice.name.match(die.name) ? die : dice))) 
   }
 
   const rolled = (die,qty,modifier) => {    
@@ -102,6 +103,7 @@ function App() {
             die={die} 
             rolled={rolled} 
             increment={increment} 
+            modifier={addModifier}
             key={index}/>
         )}      
       </div>
