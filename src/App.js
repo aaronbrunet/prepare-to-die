@@ -4,6 +4,9 @@ import Card from "./components/Card";
 import Result from "./components/Result";
 import Die from "./components/Die";
 import "./App.css";
+import 'primereact/resources/themes/nova-light/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 
 const Heading = styled.h1`
   color: white;
@@ -11,13 +14,13 @@ const Heading = styled.h1`
 `;
 
 const diceList = [
-  { name: "d4", sides: 4, qty: 1, modifier: [] },
-  { name: "d6", sides: 6, qty: 1, modifier: [] },
-  { name: "d8", sides: 8, qty: 1, modifier: [] },
-  { name: "d10", sides: 10, qty: 1, modifier: [] },
-  { name: "d12", sides: 12, qty: 1, modifier: [] },
-  { name: "d20", sides: 20, qty: 1, modifier: [] },
-  { name: "Percentile", sides: 100, qty: 1, modifier: [] }
+  { name: "d4", sides: 4, qty: 1, modifier: [], vantage: null },
+  { name: "d6", sides: 6, qty: 1, modifier: [], vantage: null },
+  { name: "d8", sides: 8, qty: 1, modifier: [], vantage: null },
+  { name: "d10", sides: 10, qty: 1, modifier: [], vantage: null },
+  { name: "d12", sides: 12, qty: 1, modifier: [], vantage: null },
+  { name: "d20", sides: 20, qty: 1, modifier: [], vantage: null },
+  { name: "Percentile", sides: 100, qty: 1, modifier: [], vantage: null }
 ];
 
 function App() {
@@ -28,10 +31,17 @@ function App() {
   
   //die === null && (die = initialDie)
 
-  const randomise = (min, max, qty) => {
+  const randomise = (min, max, qty, vantage) => {
     let roll = [];
     for (let i = 0; i < qty; i++) {
       let rand = Math.round(min + Math.random() * (max - min));
+      if(vantage){
+        let second = Math.round(min + Math.random() * (max - min));
+        let arr = [rand,second]
+        if(vantage === 'advantage'){rand = arr.reduce((a, b) => Math.max(a, b)) + ' ('+arr+')';}
+        if(vantage === 'disadvantage'){rand = arr.reduce((a, b) => Math.min(a, b)) + ' ('+arr+')';}
+        console.log('Vantage: %s, Arr: %o',vantage,arr)
+      }
       //if(rand === max && max === 20){rand +=' (Critical!)'}
       roll.push(rand);
     }
@@ -59,13 +69,14 @@ function App() {
     setRoll([]);
   };
 
-  const _rolled = (die, qty, modifier) => {
+  const _rolled = (die, qty, modifier, vantage) => {
     const min = 1;
     const max = die.sides;
     let roll = [];
     let result;
     console.log(modifier[0]);
     if (modifier && modifier.length > 0) {
+      /*
       if (modifier[0] === "advantage") {
         roll = randomise(min, max, 2);
         result = roll.reduce((a, b) => Math.max(a, b));
@@ -73,7 +84,8 @@ function App() {
         roll = randomise(min, max, 2);
         result = roll.reduce((a, b) => Math.min(a, b));
       } else {
-        roll = randomise(min, max, qty);
+        */
+        roll = randomise(min, max, qty, vantage);
         result = roll.reduce((a, b) => parseInt(a) + parseInt(b), 0);
         let history = result;
         for (let mod in modifier) {
@@ -88,13 +100,13 @@ function App() {
             result = eval(curr);
             console.log("History: %s, Result: %s", history, result);
           }
-        }
+        //}
       }
     } else {
-      roll = randomise(min, max, qty);
+      roll = randomise(min, max, qty, vantage);
       result = roll.reduce((a, b) => parseInt(a) + parseInt(b), 0);
     }
-    setRoll([die.name, die.qty, roll, result, modifier]);
+    setRoll([die.name, die.qty, roll, result, modifier, vantage]);
     console.log(roll);
   };
 

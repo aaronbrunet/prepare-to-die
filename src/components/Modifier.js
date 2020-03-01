@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { Button } from "primereact/button";
+import { Dropdown } from "primereact/dropdown";
+import { InputText } from "primereact/inputtext";
+import { SelectButton } from "primereact/selectbutton";
 
 const ModList = styled.div`
   display: block;
@@ -8,15 +12,21 @@ const ModList = styled.div`
   }
 `;
 
-const ModInput = styled.input`
+const ModInput = styled(InputText)`
   width: 60px;
   font-size: 15pt;
 `;
-const Button = styled.button`
+
+const ModSelect = styled(SelectButton)`
+  display: inline-block;
+`;
+
+const ModButton = styled(Button)`
+  display: inline-block;
   border-radius: 10px;
   border: 1px solid white;
-  color: white;
-  background: transparent;
+  color: grey;
+  background: white;
   margin-top: 30px;
   cursor: pointer;
   font-size: 15pt;
@@ -30,9 +40,16 @@ const Form = styled.form`
 `;
 
 const Modifier = props => {
-  const [modType, setModType] = useState("");
+  const [modType, setModType] = useState("+");
   const [mod, setMod] = useState("");
   const [toggle, setToggle] = useState(false);
+
+  const options = [
+    { label: "+", value: "+" },
+    { label: "-", value: "-" },
+    { label: "*", value: "*" },
+    { label: "/", value: "/" }
+  ];
 
   let die = props.die;
 
@@ -47,9 +64,11 @@ const Modifier = props => {
   return (
     <>
       {die.modifier.length < 3 ? (
-        <Button type="button" onClick={() => setToggle(() => !toggle)}>
-          {toggle ? "-" : "+"} Modifier
-        </Button>
+        <Button
+          label={`${toggle ? "-" : "+"}Modifier`}
+          className="p-button-raised p-button-secondary"
+          onClick={() => setToggle(() => !toggle)}
+        />
       ) : (
         <h4>Remove a modifier to add a new one</h4>
       )}
@@ -61,33 +80,30 @@ const Modifier = props => {
           console.log(modType + mod);
           props.modifier(die, modType + mod);
           setMod("");
-          setModType("");
+          setModType("+");
           setToggle(false);
         }}
         toggle={toggle}
       >
-        {modType}
-        <ModInput
-          type="number"
-          pattern="[0-9]*"
-          placeholder="Mod"
-          value={mod}
-          onChange={handleInput}
-        />
+        <div className="p-inputgroup">
+        <ModSelect
+            value={modType}
+            options={options}
+            onChange={e => setModType(e.value)}
+          />
+          <ModInput
+            type="number"
+            min='1'
+            max='10'
+            pattern="[0-9]*"
+            placeholder="Mod"
+            value={mod}
+            onChange={handleInput}
+          />
+        </div>
         <ModList>
-          <Button type="button" onClick={() => _setmod("+")} name="+">
-            +
-          </Button>
-          <Button type="button" onClick={() => _setmod("-")} name="-">
-            -
-          </Button>
-          <Button type="button" onClick={() => _setmod("*")} name="*">
-            *
-          </Button>
-          <Button type="button" onClick={() => _setmod("/")} name="/">
-            /
-          </Button>
-          <Button>Add</Button>
+          
+          <ModButton label="Add" />
         </ModList>
       </Form>
     </>

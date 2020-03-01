@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { SelectButton } from "primereact/selectbutton";
+import { Button } from "primereact/button";
 import styled from "styled-components";
 
 import Modifier from "./Modifier";
@@ -21,23 +23,19 @@ const Dice = styled.div`
     display: block;
   }
 
-  button {
-    border: none;
-    background: transparent;
-    color: white;
-  }
+ 
 `;
-const Button = styled.button`
+const InputButton = styled.button`
   border-radius: 10px;
   border: 1px solid white;
-  color: white;
-  background: transparent;
+  color:#242527;
+  background: white;
   margin-top: 30px;
   cursor: pointer;
   font-size: 15pt;
   &:hover {
-    color: #242527;
-    background: white;
+    color: white;
+    background: red;
   }
 `;
 
@@ -53,13 +51,13 @@ const RollBox = styled.div`
   flex-grow: 1;
 `;
 
-const RollButton = styled(Button)`
+const RollButton = styled(InputButton)`
   display: inline-block;
   font-size: 20pt;
 `;
 const Qty = styled.h2`
-    display: inline-block;
-`
+  display: inline-block;
+`;
 const ModList = styled.div`
   display: block;
   button {
@@ -73,53 +71,23 @@ const ModInput = styled.input`
 `;
 
 const DieVis = styled.div`
-    display: inline-block;
-    background: red;
-    color: white;   
-    margin: 0 10px; 
-`
-/*
-<form
-              onSubmit={event => {
-                event.preventDefault();
-                if (!modType || !mod) return;
-                //props.modifier((mod+modType))
-                console.log(modType + mod);
-                props.modifier(die, modType + mod);
-                setMod("");
-                setModType("");
-              }}
-            >
-              {modType}
-              <ModInput
-                type="number"
-                pattern="[0-9]*"
-                placeholder="Enter mod"
-                value={mod}
-                onChange={handleInput}
-              />
-              <ModList>
-                <Button type="button" onClick={() => _setmod("+")} name="+">
-                  +
-                </Button>
-                <Button type="button" onClick={() => _setmod("-")} name="-">
-                  -
-                </Button>
-                <Button type="button" onClick={() => _setmod("*")} name="*">
-                  *
-                </Button>
-                <Button type="button" onClick={() => _setmod("/")} name="/">
-                  /
-                </Button>
-                <Button>Add</Button>
-              </ModList>
-            </form>
-            */
+  display: inline-block;
+  background: red;
+  color: white;
+  margin: 0 10px;
+`;
 
 const Die = props => {
   const [modType, setModType] = useState("");
   const [mod, setMod] = useState("");
-  const initialDie = { name: "none", sides: 0, qty: 0, modifier: [] }
+  const [vantage, setVantage] = useState(null);
+  const initialDie = { name: "none", sides: 0, qty: 0, modifier: [] };
+
+  const options = [
+    { label: "None", value: null },
+    { label: "Advantage", value: "advantage" },
+    { label: "Disadvantage", value: "disadvantage" }
+  ];
 
   let die = props.die;
 
@@ -131,14 +99,14 @@ const Die = props => {
     setMod(input.target.value);
   };
 
-  function dicevis(){
-      let dice = []
-      let i = 1;
-      while(i<=die.qty){
-        dice.push(<DieVis key={i}>{i}</DieVis>);
-        i++;
-      }
-      return dice
+  function dicevis() {
+    let dice = [];
+    let i = 1;
+    while (i <= die.qty) {
+      dice.push(<DieVis key={i}>{i}</DieVis>);
+      i++;
+    }
+    return dice;
   }
 
   return (
@@ -149,47 +117,49 @@ const Die = props => {
           <h3>Sides: {die.sides}</h3>
         </TitleBox>
         <RollBox>
+          <SelectButton
+            value={vantage}
+            options={options}
+            onChange={e => setVantage(e.value)}
+          ></SelectButton>
           <span>
-            <Button name="less" onClick={() => props.increment(die, -1)}>
+            <InputButton name="less" onClick={() => props.increment(die, -1)}>
               {"<"}
-            </Button>
+            </InputButton>
             <Qty>{die.qty}</Qty>
-                        <Button name="more" onClick={() => props.increment(die, 1)}>
+            <InputButton name="more" onClick={() => props.increment(die, 1)}>
               {">"}
-            </Button>
-            <br/>
+            </InputButton>
+            <br />
             {dicevis()}
           </span>
-          
+
           {die.modifier.map((modifier, index) => (
             //<Modifier mod={modifier} key={index}/>
-            <Button key={index} onClick={() => props.rmodifier(die, modifier)}>
+            <InputButton
+              key={index}
+              onClick={() => props.rmodifier(die, modifier)}
+            >
               {modifier}
-            </Button>
+            </InputButton>
           ))}
           {die.modifier.length < 3 ? (
             <Modifier modifier={props.modifier} die={die} />
           ) : (
             <h4>Remove a modifier to add a new one</h4>
           )}
-          <br/>
-          <RollButton onClick={() => props.rolled(die, die.qty, die.modifier)}>
-            Roll
-          </RollButton>
-          <RollButton onClick={() => props.rolled(die, die.qty, ["advantage"])}>
-            Advantage
-          </RollButton>
-          <RollButton
-            onClick={() => props.rolled(die, die.qty, ["disadvantage"])}
-          >
-            Disadvantage
-          </RollButton>
+          <br />
+          <Button
+            label="Roll"
+            className="p-button-raised p-button-danger"
+            onClick={() => props.rolled(die, die.qty, die.modifier, vantage)}
+          />
+          <br />
 
           <Result roll={props.roll} />
         </RollBox>
       </Box>
     </Dice>
-    );
-  
+  );
 };
 export default Die;

@@ -41,4 +41,6 @@ body {
   }
 }
 
-
+div[role=group]{
+  display: inline-block;
+}

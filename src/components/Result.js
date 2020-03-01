@@ -34,6 +34,7 @@ const Result = props => {
   const results = props.roll[2];
   const sum = props.roll[3];
   const modifier = props.roll[4];
+  const vantage = props.roll[5]
 
   //<Button>Roll</Button>
   return (
@@ -43,13 +44,15 @@ const Result = props => {
           <Title>
             {diceName === "Percentile" ? diceName : diceQty + diceName}
             {modifier && modifier.length > 0 && ` ( ${modifier} )`}
+            {vantage && ` ( ${vantage} )`}
+            
           </Title>
           {results.map((result, index) => (
             <Num key={index}>
               {result}
               {results.length > 0 && index < results.length - 1 && ", "}
             </Num>
-          ))}
+          ))}{modifier && modifier.length > 0 && ` ( ${modifier} )`}
           <Title>Result: {sum}</Title>
         </>
       ) : (
