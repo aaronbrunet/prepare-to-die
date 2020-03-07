@@ -4,9 +4,10 @@ import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { SelectButton } from "primereact/selectbutton";
+import { Spinner } from 'primereact/spinner';
 
 const ModList = styled.div`
-  display: block;
+  display: inline-block;
   button {
     display: inline-block;
   }
@@ -27,7 +28,6 @@ const ModButton = styled(Button)`
   border: 1px solid white;
   color: grey;
   background: white;
-  margin-top: 30px;
   cursor: pointer;
   font-size: 15pt;
   &:hover {
@@ -35,8 +35,29 @@ const ModButton = styled(Button)`
     background: white;
   }
 `;
+
+const ModSpinner = styled(Spinner)`
+  width: 15%;
+  display: inline-block;
+  input{
+    width: 100%;
+  }
+
+`;
+
+const ModGroup = styled.div`
+  width: 100%;
+  justify-content: center;
+  div[role=group]{
+    display: inline-block;
+  }
+`;
+
 const Form = styled.form`
   display: ${props => (props.toggle === true ? "block" : "none")};
+  width: 70%;
+  margin: auto;
+  
 `;
 
 const Modifier = props => {
@@ -79,32 +100,23 @@ const Modifier = props => {
           //props.modifier((mod+modType))
           console.log(modType + mod);
           props.modifier(die, modType + mod);
-          setMod("");
+          setMod(1);
           setModType("+");
           setToggle(false);
         }}
         toggle={toggle}
       >
         
-        <div className="p-inputgroup">
+        <ModGroup className="p-inputgroup">
           <ModSelect
             value={modType}
             options={options}
             onChange={e => setModType(e.value)}
           />
-          <ModInput
-            type="number"
-            min="1"
-            max="10"
-            pattern="[0-9]*"
-            placeholder="Mod"
-            value={mod}
-            onChange={handleInput}
-          />
-        </div>
-        <ModList>
-          <ModButton label="Add" />
-        </ModList>
+           <ModSpinner value={mod} onChange={handleInput} min={1} max={10} />
+           <ModButton label="Add" />
+        </ModGroup>
+          
       </Form>
     </>
   );

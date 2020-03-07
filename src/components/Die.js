@@ -1,22 +1,24 @@
 import React, { useState } from "react";
 import { SelectButton } from "primereact/selectbutton";
 import { Button } from "primereact/button";
-import styled from "styled-components";
 import { SplitButton } from "primereact/splitbutton";
+import { Spinner } from 'primereact/spinner';
+
+import styled from "styled-components";
 
 import Modifier from "./Modifier";
 import Result from "./Result";
 
 const Dice = styled.div`
-  border: 1px solid red;
+  /*border: 1px solid red;*/  
   border-radius: 50px;
   background: #625F6B;
   margin: 20px auto;
   padding: 15px;
-  color: #E1BDCF;
+  color: #704551;
   cursor: pointer;
   height: 50vh;
-  width: 80%;
+  width: 100%;  
   transition: 0.2s ease-in-out;
   position: relative;
 
@@ -48,7 +50,7 @@ const Box = styled.div`
   height: 100%;
 `;
 const TitleBox = styled.div`
-  flex-grow: 2;
+  flex-grow: 1;
   height: 100%;
 `;
 const RollBox = styled.div`
@@ -56,6 +58,7 @@ const RollBox = styled.div`
   background:#C1C3C5;
   height: 100%;
   border-radius: 30px;
+  padding: 30px;
 `;
 
 const RollButton = styled(InputButton)`
@@ -82,6 +85,52 @@ const DieVis = styled.div`
   background: red;
   color: white;
   margin: 0 10px;
+`;
+
+const Increment = styled(Spinner)`
+  display: block;
+  width: 30%;
+  
+  max-width: 200px;
+  margin: auto;
+  box-sizing: border-box;
+
+  input {
+    display: block;
+    text-align: center;
+    padding: 15px 0 !important;    
+    width: 100%;
+  }
+  button {
+    display: inline-block;
+    position: absolute;
+    top:0;
+    height: 100%;
+
+    span {
+      transform: rotate(90deg);
+    }
+
+    &.p-spinner-button-up{
+      right: 0;      
+    }
+    &.p-spinner-button-down{
+      left: 0;
+    }
+
+  }
+`;
+
+const Roller = styled(SplitButton)`
+  &&&{
+  width: 50%;
+  display: block;
+  margin: auto;
+  max-width: 200px;
+
+  .p-button-text-only { width: 90%; }
+  .p-button-icon-only { width: 10%; }
+  }
 `;
 
 const Die = props => {
@@ -122,6 +171,11 @@ const Die = props => {
     }
     return dice;
   }
+  
+  function setQty(qty) {
+    die.qty = qty;
+    props.update(die);
+  }
 
   return (
     <Dice className="Dice">
@@ -130,26 +184,10 @@ const Die = props => {
           <h1>{die.name}</h1>
           <h3>Sides: {die.sides}</h3>
         </TitleBox>
-        <RollBox>         
-
-          {/*<SelectButton
-            value={vantage}
-            options={options}
-            onChange={e => setVantage(e.value)}
-          ></SelectButton>*/
-          }
-          <span>
-            <InputButton name="less" onClick={() => props.increment(die, -1)}>
-              {"<"}
-            </InputButton>
-            <Qty>{die.qty}</Qty>
-            <InputButton name="more" onClick={() => props.increment(die, 1)}>
-              {">"}
-            </InputButton>
-            <br />
-            {dicevis()}
-          </span>
-
+        <RollBox>  
+          <Increment value={die.qty} onChange={(e) => setQty(e.value)} min={1} max={10} />
+          {dicevis()}          
+          <br />
           {die.modifier.map((modifier, index) => (
             //<Modifier mod={modifier} key={index}/>
             <InputButton
@@ -165,15 +203,8 @@ const Die = props => {
             <h4>Remove a modifier to add a new one</h4>
           )}
           <br />
-          <SplitButton label={vantage.value ? 'Roll with ' + vantage.label : 'Roll'} onClick={() => props.rolled(die, die.qty, die.modifier, vantage.value)} model={vantages}></SplitButton>
-          {/*<Button
-            label="Roll"
-            className="p-button-raised p-button-danger"
-            onClick={() => props.rolled(die, die.qty, die.modifier, vantage.value)}
-          />*/
-          }
+          <Roller label={vantage.value ? 'Roll with ' + vantage.label : 'Roll'} onClick={() => props.rolled(die, die.qty, die.modifier, vantage.value)} model={vantages}></Roller>
           <br />
-
           <Result roll={props.roll} />
         </RollBox>
       </Box>

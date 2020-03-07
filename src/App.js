@@ -10,7 +10,27 @@ import 'primeicons/primeicons.css';
 
 const Heading = styled.h1`
   color: white;
-  font-size: 36pt;
+  font-size: 50pt;
+  margin-top: 0;
+`;
+
+const Top = styled.div`
+  height: 300px;
+  width: 98%;
+  margin: auto;
+  margin-top: 20px;
+  display: block;
+  border-radius: 30px 30px 0 0;
+  background: rgb(36,37,39);
+  /*background: linear-gradient(171deg, rgba(36,37,39,1) 0%, rgba(62,25,37,1) 100%);*/
+  background: linear-gradient(to right top, #242527, #25242d, #2b222f, #351e2d, #3e1925);
+`;
+
+const Body = styled.div`
+  height: 100%;
+  width: 80%;
+  margin: auto;
+  display: block;
 `;
 
 const diceList = [
@@ -57,6 +77,11 @@ function App() {
       setDice(dice.map(dice => (dice.name.match(die.name) ? die : dice)));
     }
   };
+
+  const _updateDie = (die) => {
+    setDice(dice.map(dice => (dice.name.match(die.name) ? die : dice)));
+  }
+
   const _removeModifier = (die, modifier) => {
     let index = die.modifier.indexOf(modifier);
     index > -1 && die.modifier.splice(index, 1);
@@ -76,15 +101,6 @@ function App() {
     let result;
     console.log(modifier[0]);
     if (modifier && modifier.length > 0) {
-      /*
-      if (modifier[0] === "advantage") {
-        roll = randomise(min, max, 2);
-        result = roll.reduce((a, b) => Math.max(a, b));
-      } else if (modifier[0] === "disadvantage") {
-        roll = randomise(min, max, 2);
-        result = roll.reduce((a, b) => Math.min(a, b));
-      } else {
-        */
         roll = randomise(min, max, qty, vantage);
         result = roll.reduce((a, b) => parseInt(a) + parseInt(b), 0);
         let history = result;
@@ -124,6 +140,7 @@ function App() {
 
   return (
     <div className="App">
+      <Top>
       <Heading>
         R<span style={{ color: "red" }}>&</span>ller
       </Heading>
@@ -136,16 +153,20 @@ function App() {
           />
         ))}
       </div>   
+      </Top>
+      <Body>
       {die &&   
         (<Die
           die={die}
           rolled={_rolled}
+          update={_updateDie}
           increment={_increment}
           modifier={_addModifier}
           rmodifier={_removeModifier}
           setDie={_toggle}
           roll={roll}
-        />)}      
+        />)}
+        </Body>      
     </div>
   );
 }
