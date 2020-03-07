@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+import { styled as mstyled } from '@material-ui/core/styles';
 import styled from "styled-components";
-import { Button } from "primereact/button";
-import { Dropdown } from "primereact/dropdown";
-import { InputText } from "primereact/inputtext";
+//import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import { Input as InputText} from '@material-ui/core';
+//import { Button } from "primereact/button";
+//import { InputText } from "primereact/inputtext";
 import { SelectButton } from "primereact/selectbutton";
 
 const ModList = styled.div`
@@ -21,20 +25,20 @@ const ModSelect = styled(SelectButton)`
   display: inline-block;
 `;
 
-const ModButton = styled(Button)`
-  display: inline-block;
-  border-radius: 10px;
-  border: 1px solid white;
-  color: grey;
-  background: white;
-  margin-top: 30px;
-  cursor: pointer;
-  font-size: 15pt;
-  &:hover {
-    color: #242527;
-    background: white;
+const ModButton = mstyled(Button)({  
+  borderRadius: 10,  
+  color: 'grey',  
+  marginTop: '30px',
+  cursor: 'pointer',
+  fontSize: '15pt',
+  '& :hover': {
+    color: '#242527',
+    //background: 'white',
+  },
+  '& :active': {
+    border: '1px solid red',
   }
-`;
+});
 const Form = styled.form`
   display: ${props => (props.toggle === true ? "block" : "none")};
 `;
@@ -53,7 +57,9 @@ const Modifier = props => {
 
   let die = props.die;
 
-  const _setmod = val => {
+  const _setmod = event => {    
+    let val = event.target.value;    
+    console.log('clicked: ' + val);
     modType === val ? setModType("") : setModType(() => val);
   };
 
@@ -64,11 +70,10 @@ const Modifier = props => {
   return (
     <>
       {die.modifier.length < 3 ? (
-        <Button
-          label={`${toggle ? "-" : "+"}Modifier`}
-          className="p-button-raised p-button-secondary"
+        <Button variant='contained'
+          //className="p-button-raised p-button-secondary"
           onClick={() => setToggle(() => !toggle)}
-        />
+        >{`${toggle ? "-" : "+"}Modifier`}</Button>
       ) : (
         <h4>Remove a modifier to add a new one</h4>
       )}
@@ -86,11 +91,17 @@ const Modifier = props => {
         toggle={toggle}
       >
         <div className="p-inputgroup">
-        <ModSelect
+        {/*<ModSelect
             value={modType}
             options={options}
             onChange={e => setModType(e.value)}
-          />
+          />*/
+        }}
+        <ButtonGroup>
+          {options.map((option,index)=>
+          (<ModButton onClick={event=>_setmod(event)} value={option.value} key={index}>{option.label}</ModButton>)
+          )}
+        </ButtonGroup>
           <ModInput
             type="number"
             min='1'
@@ -101,9 +112,8 @@ const Modifier = props => {
             onChange={handleInput}
           />
         </div>
-        <ModList>
-          
-          <ModButton label="Add" />
+        <ModList>          
+          <ModButton type='submit'>Add</ModButton>
         </ModList>
       </Form>
     </>

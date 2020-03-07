@@ -25,10 +25,6 @@ OR
 
 */
 
-body {
-  /*background-color: #242527;*/
-  
-}
 
 .App {
   text-align: center;
@@ -70,7 +66,6 @@ body {
     transform: rotate(360deg);
   }
 }
-
-div[role=group]{
-  display: inline-block;
+.p-inputgroup {
+  /*display: inline-block;*/
 }

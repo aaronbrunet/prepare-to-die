@@ -1,13 +1,25 @@
-import React, { useState } from "react";
-import { SelectButton } from "primereact/selectbutton";
-import { Button } from "primereact/button";
+import React, { useState, useRef } from "react";
+//import { SelectButton } from "primereact/selectbutton";
+//import { Button as PrimeButton } from "primereact/button";
 import styled from "styled-components";
+
+
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+
 
 import Modifier from "./Modifier";
 import Result from "./Result";
 
 const Dice = styled.div`
-  border: 1px solid red;
+  /*border: 1px solid red;*/
   border-radius: 50px;
   background: #625F6B;
   margin: 20px auto;
@@ -19,14 +31,14 @@ const Dice = styled.div`
   transition: 0.2s ease-in-out;
   position: relative;
 
-  span {
+  .cust-span {
     position: relative;
     display: block;
   }
 
  
 `;
-const InputButton = styled.button`
+const InputButton = styled(Button)`
   border-radius: 10px;
   border: 1px solid white;
   color:#242527;
@@ -88,12 +100,37 @@ const Die = props => {
   const [mod, setMod] = useState("");
   const [vantage, setVantage] = useState(null);
   const initialDie = { name: "none", sides: 0, qty: 0, modifier: [] };
+  
+  const [open,setOpen] = useState(false);
+  const anchorRef = useRef(null);
+  const [selectedIndex,setSelectedIndex] = useState(1);
+  
+  const vantOptions = ['None','Advantage','Disadvantage'];
+  const handleClick = () => {
+    console.log('clicked ' + vantOptions[selectedIndex]);
+  }
+  const handleButtonClick = (event,index) => {
+    setSelectedIndex(index);
+    setOpen(false);
+  }
+  const handleToggle = () => {
+    console.log('clicked toggle');
+    setOpen(prevOpen=>!prevOpen);
+  }
+  const handleClose = event => {
+    if(anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+    setOpen(false);
+  }
 
   const options = [
     { label: "None", value: null },
     { label: "Advantage", value: "advantage" },
     { label: "Disadvantage", value: "disadvantage" }
   ];
+
+ 
 
   let die = props.die;
 
@@ -123,12 +160,46 @@ const Die = props => {
           <h3>Sides: {die.sides}</h3>
         </TitleBox>
         <RollBox>
-          <SelectButton
+          <ButtonGroup variant='contained' color='primary' ref={anchorRef} aria-label='split-button'>
+            <Button onClick={handleClick}>{vantOptions[selectedIndex]}</Button>
+            <Button color='primary' 
+            size='small' 
+            aria-controls={open ? 'split-button-menu' : undefined} 
+            aria-expanded={open ? 'true' : undefined} 
+            aria-label='select vantage' 
+            aria-haspopup='menu' 
+            onClick={handleToggle}>
+              <ArrowDropDownIcon />
+            </Button>
+          </ButtonGroup>
+          <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+            {({TransitionProps,placement}) => (
+              <Grow {...TransitionProps} style={{
+                transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
+              }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={handleClose}>
+                    <MenuList id='split-button-menu'>
+                      {vantOptions.map((option,index) => (
+                        <MenuItem key={option} disabled={index === 2} selected={index === selectedIndex} onClick={event=>handleButtonClick(event,index)}>
+                          {option}
+                        </MenuItem>
+                      ))}
+                    </MenuList>                    
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
+
+          {/*<SelectButton
             value={vantage}
             options={options}
             onChange={e => setVantage(e.value)}
-          ></SelectButton>
-          <span>
+          ></SelectButton>*/
+          }
+          <span className='cust-span'>
             <InputButton name="less" onClick={() => props.increment(die, -1)}>
               {"<"}
             </InputButton>
@@ -159,8 +230,8 @@ const Die = props => {
             label="Roll"
             className="p-button-raised p-button-danger"
             onClick={() => props.rolled(die, die.qty, die.modifier, vantage)}
-          />
-          <br />
+          ></Button>
+          <br/>
 
           <Result roll={props.roll} />
         </RollBox>
