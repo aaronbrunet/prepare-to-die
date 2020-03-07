@@ -8,7 +8,7 @@ const Title = styled.h3`
 `;
 
 const Num = styled.h4`
-  color: red;
+  color: #704551;
   display: inline-block;
   font-size: 25pt;
   margin: 5px;

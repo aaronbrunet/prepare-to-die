@@ -4,6 +4,7 @@ import styled from "styled-components";
 const Dice = styled.div`
   display: inline-block;
   border: 1px solid grey;
+  background: #625F6B;
   border-radius: 10px;
   margin: 10px;
   padding: 15px;

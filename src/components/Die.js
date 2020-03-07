@@ -8,10 +8,11 @@ import Result from "./Result";
 
 const Dice = styled.div`
   border: 1px solid red;
-  border-radius: 10px;
+  border-radius: 50px;
+  background: #625F6B;
   margin: 20px auto;
   padding: 15px;
-  color: red;
+  color: #E1BDCF;
   cursor: pointer;
   height: 50vh;
   width: 80%;
@@ -42,13 +43,18 @@ const InputButton = styled.button`
 const Box = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: baseline;
+  align-items: center;
+  height: 100%;
 `;
 const TitleBox = styled.div`
   flex-grow: 2;
+  height: 100%;
 `;
 const RollBox = styled.div`
   flex-grow: 1;
+  background:#C1C3C5;
+  height: 100%;
+  border-radius: 30px;
 `;
 
 const RollButton = styled(InputButton)`
