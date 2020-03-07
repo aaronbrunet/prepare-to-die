@@ -41,7 +41,7 @@ const Form = styled.form`
 
 const Modifier = props => {
   const [modType, setModType] = useState("+");
-  const [mod, setMod] = useState("");
+  const [mod, setMod] = useState(1);
   const [toggle, setToggle] = useState(false);
 
   const options = [
@@ -85,16 +85,17 @@ const Modifier = props => {
         }}
         toggle={toggle}
       >
+        
         <div className="p-inputgroup">
-        <ModSelect
+          <ModSelect
             value={modType}
             options={options}
             onChange={e => setModType(e.value)}
           />
           <ModInput
             type="number"
-            min='1'
-            max='10'
+            min="1"
+            max="10"
             pattern="[0-9]*"
             placeholder="Mod"
             value={mod}
@@ -102,7 +103,6 @@ const Modifier = props => {
           />
         </div>
         <ModList>
-          
           <ModButton label="Add" />
         </ModList>
       </Form>

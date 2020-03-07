@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { SelectButton } from "primereact/selectbutton";
 import { Button } from "primereact/button";
 import styled from "styled-components";
+import { SplitButton } from "primereact/splitbutton";
 
 import Modifier from "./Modifier";
 import Result from "./Result";
@@ -84,9 +85,15 @@ const DieVis = styled.div`
 `;
 
 const Die = props => {
+  const vantages = [
+    { label: "Normal", value: null, command: (e)=>{ setVantage(vantages[0]) } },
+    { label: "Advantage", value: "advantage",command: (e)=>{ setVantage(vantages[1]) } },
+    { label: "Disadvantage", value: "disadvantage",command: (e)=>{ setVantage(vantages[2]) } }
+  ];
+
   const [modType, setModType] = useState("");
   const [mod, setMod] = useState("");
-  const [vantage, setVantage] = useState(null);
+  const [vantage, setVantage] = useState(vantages[0]);
   const initialDie = { name: "none", sides: 0, qty: 0, modifier: [] };
 
   const options = [
@@ -94,6 +101,7 @@ const Die = props => {
     { label: "Advantage", value: "advantage" },
     { label: "Disadvantage", value: "disadvantage" }
   ];
+  
 
   let die = props.die;
 
@@ -122,12 +130,14 @@ const Die = props => {
           <h1>{die.name}</h1>
           <h3>Sides: {die.sides}</h3>
         </TitleBox>
-        <RollBox>
-          <SelectButton
+        <RollBox>         
+
+          {/*<SelectButton
             value={vantage}
             options={options}
             onChange={e => setVantage(e.value)}
-          ></SelectButton>
+          ></SelectButton>*/
+          }
           <span>
             <InputButton name="less" onClick={() => props.increment(die, -1)}>
               {"<"}
@@ -155,11 +165,13 @@ const Die = props => {
             <h4>Remove a modifier to add a new one</h4>
           )}
           <br />
-          <Button
+          <SplitButton label={vantage.value ? 'Roll with ' + vantage.label : 'Roll'} onClick={() => props.rolled(die, die.qty, die.modifier, vantage.value)} model={vantages}></SplitButton>
+          {/*<Button
             label="Roll"
             className="p-button-raised p-button-danger"
-            onClick={() => props.rolled(die, die.qty, die.modifier, vantage)}
-          />
+            onClick={() => props.rolled(die, die.qty, die.modifier, vantage.value)}
+          />*/
+          }
           <br />
 
           <Result roll={props.roll} />
