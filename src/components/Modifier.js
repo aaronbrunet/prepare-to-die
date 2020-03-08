@@ -103,12 +103,12 @@ const ModGroup = styled.div`
 
 const ToggleButton = styled(Button)`
 &&&{
-  color: ${props=>props.toggle === true ? 'white' : '#25242c'};
-  background-color: ${props=>props.toggle === true ? '#2ea9bd' : 'white'};  
+  color: ${props=>props.toggle === 'true' ? 'white' : '#25242c'};
+  background-color: ${props=>props.toggle === 'true' ? '#2ea9bd' : 'white'};  
     &:focus,&.p-button-secondary:hover{
-        color: ${props=>props.toggle === true ? 'white' : '#25242c'};
+        color: ${props=>props.toggle === 'true' ? 'white' : '#25242c'};
         background-color: #0e7d8f;
-        background-color: ${props=>props.toggle === true ? '#0e7d8f' : '#c8c8c8'};
+        background-color: ${props=>props.toggle === 'true' ? '#0e7d8f' : '#c8c8c8'};
       }
       &:focus,&.p-button-secondary:focus{
       box-shadow: 0 0 2px 0.2em #2ea9bd;
@@ -117,7 +117,7 @@ const ToggleButton = styled(Button)`
 `;
 
 const ModForm = styled.form`
-  display: ${props => (props.toggle === true ? "block" : "none")};
+  display: ${props => (props.toggle === 'true' ? "block" : "none")};
   width: 70%;
   margin: auto;
   margin-top: 10px;  
@@ -137,9 +137,11 @@ const Modifier = props => {
 
   let die = props.die;
 
+  /*
   const _setmod = val => {
     modType === val ? setModType("") : setModType(() => val);
   };
+  */
 
   const handleInput = input => {
     setMod(input.target.value);
@@ -160,8 +162,8 @@ const Modifier = props => {
         <ToggleButton
           label={`${toggle ? "-" : "+"} Modifier`}
           className="p-button-raised p-button-secondary"
-          onClick={() => setToggle(() => !toggle)}
-          toggle={toggle}
+          onClick={() => setToggle(!toggle)}
+          toggle={toggle.toString()}
         />
       ) : (
         <h4>Remove a modifier to add a new one</h4>
@@ -177,7 +179,7 @@ const Modifier = props => {
           setModType("+");
           setToggle(false);
         }}
-        toggle={toggle}
+        toggle={toggle.toString()}
       >
         <ModGroup className="p-inputgroup">
           <ModSelect

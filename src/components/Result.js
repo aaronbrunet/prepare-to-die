@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 const Title = styled.h3`
@@ -14,6 +14,7 @@ const Num = styled.h4`
   margin: 5px;
 `;
 
+/*
 const Button = styled.button`
   width: 60px;
   height: 50px;
@@ -26,7 +27,7 @@ const Button = styled.button`
     color: #242527;
     background: white;
   }
-`;
+`;*/
 
 const Result = props => {
   const diceName = props.roll[0];

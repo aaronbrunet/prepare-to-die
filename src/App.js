@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Card from "./components/Card";
-import Result from "./components/Result";
 import Die from "./components/Die";
 import "./App.css";
 import 'primereact/resources/themes/nova-light/theme.css';
@@ -22,7 +21,6 @@ const Top = styled.div`
   display: block;
   border-radius: 30px 30px 0 0;
   background: rgb(36,37,39);
-  /*background: linear-gradient(171deg, rgba(36,37,39,1) 0%, rgba(62,25,37,1) 100%);*/
   background: linear-gradient(to right top, #242527, #25242d, #2b222f, #351e2d, #3e1925);
 `;
 
@@ -47,9 +45,6 @@ function App() {
   const [roll, setRoll] = useState([]);
   const [dice, setDice] = useState(diceList);
   const [die, setDie] = useState(null);
-
-  
-  //die === null && (die = initialDie)
 
   const randomise = (min, max, qty, vantage) => {
     let roll = [];
@@ -99,22 +94,17 @@ function App() {
     const max = die.sides;
     let roll = [];
     let result;
-    console.log(modifier[0]);
     if (modifier && modifier.length > 0) {
         roll = randomise(min, max, qty, vantage);
         result = roll.reduce((a, b) => parseInt(a) + parseInt(b), 0);
-        let history = result;
+        //let history = result;
         for (let mod in modifier) {
           let curr = modifier[mod];
-          history += curr;
-          console.log("Base mod: " + curr);
+          //history += curr;
           if (curr !== "undefined") {
             curr = curr.replace(/[^-()\d/*+.]/g, "");
-            console.log("Formatted mod: " + curr);
             curr = result + curr;
-            console.log("Formatted mod + roll: " + curr);
             result = eval(curr);
-            console.log("History: %s, Result: %s", history, result);
           }
         //}
       }
@@ -150,6 +140,7 @@ function App() {
             die={die}
             setDie={_toggle}
             key={index}
+            index={index}
           />
         ))}
       </div>   

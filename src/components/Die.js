@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { SelectButton } from "primereact/selectbutton";
-import { Button } from "primereact/button";
 import { SplitButton } from "primereact/splitbutton";
 import { Spinner } from 'primereact/spinner';
 import styled from "styled-components";
 import Modifier from "./Modifier";
 import Result from "./Result";
+import Icon from "./Icon";
 
 const Dice = styled.div`
   border-radius: 50px;
@@ -149,22 +148,23 @@ const Die = props => {
     { label: "Disadvantage", value: "disadvantage",command: (e)=>{ setVantage(vantages[2]) } }
   ];
 
-  const [modType, setModType] = useState("");
-  const [mod, setMod] = useState("");
+  //const [modType, setModType] = useState("");
+  //const [mod, setMod] = useState("");
   const [vantage, setVantage] = useState(vantages[0]);
 
-  const options = [
+  /*const options = [
     { label: "None", value: null },
     { label: "Advantage", value: "advantage" },
     { label: "Disadvantage", value: "disadvantage" }
   ];
-  
+  */
+
   let die = props.die;
 
-  const handleInput = input => {
+ /* const handleInput = input => {
     setMod(input.target.value);
   };
-
+*/
   function dicevis() {
     let dice = [];
     let i = 1;
@@ -186,6 +186,7 @@ const Die = props => {
         <TitleBox>
           <H1>{die.name}</H1>
           <H3>{die.sides} Sides</H3>
+          <Icon die={die} index={die.index} size='lg'/>
         </TitleBox>
         <RollBox>  
           <QtyBox>

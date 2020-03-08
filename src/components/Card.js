@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+import Icon from './Icon'
+
 const Dice = styled.div`
   display: inline-block;
   background: #3b3d44;
@@ -31,19 +33,25 @@ const Dice = styled.div`
   }
 `;
 
+
 const Card = props => {  
   const [active,setActive] = useState(false);
   let die = props.die;
+  die.index = props.index;
 
+  /*
   const _setActive = die => {
     props.setDie(die);
     setActive(!active);
   }
+  */
 
   return (
     <Dice className="Dice" onClick={()=>props.setDie(die)} active={active}>
       <h4>{die.name}</h4>
       <p>{die.sides} Sides</p>
+      <Icon die={die} index={props.index} size='sm'/>
+      
     </Dice>
   );
 };
