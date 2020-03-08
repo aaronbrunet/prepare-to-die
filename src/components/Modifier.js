@@ -1,25 +1,36 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Button } from "primereact/button";
-import { Dropdown } from "primereact/dropdown";
-import { InputText } from "primereact/inputtext";
 import { SelectButton } from "primereact/selectbutton";
-import { Spinner } from 'primereact/spinner';
-
-const ModList = styled.div`
-  display: inline-block;
-  button {
-    display: inline-block;
-  }
-`;
-
-const ModInput = styled(InputText)`
-  width: 60px;
-  font-size: 15pt;
-`;
+import { Spinner } from "primereact/spinner";
 
 const ModSelect = styled(SelectButton)`
   display: inline-block;
+  &&&& {
+    .p-highlight {
+      background-color: #b94666;
+      border-color: #b94666;
+      &:hover {
+        background-color: #843148;
+        border-color: #b94666;
+      }
+    }
+    .p-focus {
+      box-shadow: 0 0 2px 0.2em #fe99ba;
+      border: 0;
+    }
+    button {
+      border: 0;
+      background-color: #b94666;
+      &:hover {
+        background-color: #843148;
+      }
+      &:focus {
+        box-shadow: 0 0 2px 0.2em #fe99ba;
+        border: 0;
+      }
+    }
+  }
 `;
 
 const ModButton = styled(Button)`
@@ -30,6 +41,7 @@ const ModButton = styled(Button)`
   background: white;
   cursor: pointer;
   font-size: 15pt;
+  background-color: #2ea9bd;
   &:hover {
     color: #242527;
     background: white;
@@ -37,19 +49,48 @@ const ModButton = styled(Button)`
 `;
 
 const ModSpinner = styled(Spinner)`
-  width: 15%;
-  display: inline-block;
-  input{
-    width: 100%;
+  &&&&{
+    width: 15%;
+    display: inline-block;
+    input {
+      width: 100%;
+    }
+    button {
+      border-radius: 0;
+    }
   }
-
 `;
 
 const ModGroup = styled.div`
   width: 100%;
   justify-content: center;
-  div[role=group]{
+  div[role="group"] {
     display: inline-block;
+  }
+  &&& {
+    button {
+      border: 0;
+      background-color: #b94666;
+      &:hover {
+        background-color: #843148;
+      }
+    }
+    input,
+    button {
+      &:focus {
+        box-shadow: 0 0 2px 0.2em #fe99ba;
+        border: 0;
+      }
+    }
+    .secondary{     
+      background-color: #2ea9bd;
+      &:hover,&:focus{
+        background-color: #0e7d8f;
+      }
+      &:focus{
+        box-shadow: 0 0 2px 0.2em #2ea9bd;
+      }
+    }
   }
 `;
 
@@ -57,7 +98,6 @@ const Form = styled.form`
   display: ${props => (props.toggle === true ? "block" : "none")};
   width: 70%;
   margin: auto;
-  
 `;
 
 const Modifier = props => {
@@ -106,17 +146,15 @@ const Modifier = props => {
         }}
         toggle={toggle}
       >
-        
         <ModGroup className="p-inputgroup">
           <ModSelect
             value={modType}
             options={options}
             onChange={e => setModType(e.value)}
           />
-           <ModSpinner value={mod} onChange={handleInput} min={1} max={10} />
-           <ModButton label="Add" />
+          <ModSpinner value={mod} onChange={handleInput} min={1} max={10} />
+          <Button className='secondary' label="Add" />
         </ModGroup>
-          
       </Form>
     </>
   );

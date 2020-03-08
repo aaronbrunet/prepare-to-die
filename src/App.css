@@ -1,11 +1,18 @@
 html {
-  background: rgb(0,0,0);
+  background: rgb(36,37,39);
+  /*background: linear-gradient(171deg, rgba(36,37,39,1) 0%, rgba(62,25,37,1) 100%);*/
+  background: linear-gradient(to right top, #242527, #25242d, #2b222f, #351e2d, #3e1925);
+
   height: 100%;
 }
 
 /**
 #242527:
 
+#b94666;
+
+primary: #b94666;
+secondary: #2ea9bd;
 
 #98ACCF
 #6F7788

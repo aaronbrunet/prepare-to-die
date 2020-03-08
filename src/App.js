@@ -16,7 +16,7 @@ const Heading = styled.h1`
 
 const Top = styled.div`
   height: 300px;
-  width: 98%;
+  width: 80%;
   margin: auto;
   margin-top: 20px;
   display: block;
@@ -142,7 +142,7 @@ function App() {
     <div className="App">
       <Top>
       <Heading>
-        R<span style={{ color: "red" }}>&</span>ller
+        R<span style={{ color: "#b94666" }}>&</span>ller
       </Heading>
       <div className="card-container">
         {dice.map((die, index) => (

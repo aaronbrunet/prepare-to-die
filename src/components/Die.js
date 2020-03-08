@@ -10,12 +10,11 @@ import Modifier from "./Modifier";
 import Result from "./Result";
 
 const Dice = styled.div`
-  /*border: 1px solid red;*/  
   border-radius: 50px;
-  background: #625F6B;
+  background: #2c222f;
   margin: 20px auto;
   padding: 15px;
-  color: #704551;
+  color: #b94666;
   cursor: pointer;
   height: 50vh;
   width: 100%;  
@@ -27,8 +26,30 @@ const Dice = styled.div`
     display: block;
   }
 
- 
+  &&&{
+    .secondary {
+      background-color: #2ea9bd;      
+    }
+    button {
+      border: 0;
+    }
+    input, button{
+      &:focus {
+        box-shadow: 0 0 2px 0.2em #fe99ba;
+        border: 0;
+      }
+    }
+  }
+  
 `;
+
+const H1 = styled.h1`
+  color: #b94666;
+`;
+const H3 = styled.h3`
+  color: #2ea9bd;
+`;
+
 const InputButton = styled.button`
   border-radius: 10px;
   border: 1px solid white;
@@ -55,29 +76,10 @@ const TitleBox = styled.div`
 `;
 const RollBox = styled.div`
   flex-grow: 1;
-  background:#C1C3C5;
+  background: #3b3d44;
   height: 100%;
   border-radius: 30px;
   padding: 30px;
-`;
-
-const RollButton = styled(InputButton)`
-  display: inline-block;
-  font-size: 20pt;
-`;
-const Qty = styled.h2`
-  display: inline-block;
-`;
-const ModList = styled.div`
-  display: block;
-  button {
-    display: inline-block;
-  }
-`;
-
-const ModInput = styled.input`
-  width: 50%;
-  font-size: 15pt;
 `;
 
 const DieVis = styled.div`
@@ -88,6 +90,7 @@ const DieVis = styled.div`
 `;
 
 const Increment = styled(Spinner)`
+&&&{
   display: block;
   width: 30%;
   
@@ -100,6 +103,7 @@ const Increment = styled(Spinner)`
     text-align: center;
     padding: 15px 0 !important;    
     width: 100%;
+    
   }
   button {
     display: inline-block;
@@ -111,6 +115,11 @@ const Increment = styled(Spinner)`
       transform: rotate(90deg);
     }
 
+    background-color: #b94666;
+    &:hover{
+      background-color: #843148;
+    }
+
     &.p-spinner-button-up{
       right: 0;      
     }
@@ -119,6 +128,7 @@ const Increment = styled(Spinner)`
     }
 
   }
+}
 `;
 
 const Roller = styled(SplitButton)`
@@ -127,6 +137,15 @@ const Roller = styled(SplitButton)`
   display: block;
   margin: auto;
   max-width: 200px;
+  /*background-color: #b94666;   */
+  background-color: ${props=>props.label==='Roll' ? '#b94666' : '#2ea9bd'};
+  button {
+    background-color: #b94666;
+    border-radius: 0;
+    &:hover{
+      background-color: #843148;
+    }
+  } 
 
   .p-button-text-only { width: 90%; }
   .p-button-icon-only { width: 10%; }
@@ -143,7 +162,6 @@ const Die = props => {
   const [modType, setModType] = useState("");
   const [mod, setMod] = useState("");
   const [vantage, setVantage] = useState(vantages[0]);
-  const initialDie = { name: "none", sides: 0, qty: 0, modifier: [] };
 
   const options = [
     { label: "None", value: null },
@@ -151,12 +169,7 @@ const Die = props => {
     { label: "Disadvantage", value: "disadvantage" }
   ];
   
-
   let die = props.die;
-
-  const _setmod = val => {
-    modType === val ? setModType("") : setModType(() => val);
-  };
 
   const handleInput = input => {
     setMod(input.target.value);
@@ -172,7 +185,7 @@ const Die = props => {
     return dice;
   }
   
-  function setQty(qty) {
+  const setQty = qty => {
     die.qty = qty;
     props.update(die);
   }
@@ -181,8 +194,8 @@ const Die = props => {
     <Dice className="Dice">
       <Box>
         <TitleBox>
-          <h1>{die.name}</h1>
-          <h3>Sides: {die.sides}</h3>
+          <H1>{die.name}</H1>
+          <H3>Sides: {die.sides}</H3>
         </TitleBox>
         <RollBox>  
           <Increment value={die.qty} onChange={(e) => setQty(e.value)} min={1} max={10} />

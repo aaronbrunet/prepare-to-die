@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const Dice = styled.div`
   display: inline-block;
-  border: 1px solid grey;
-  background: #625F6B;
+  background: #3b3d44;
+  box-shadow: ${props=>props.active ? '0px 0px 5px 1px #b94666' : '0px 0px 6px 0px #331f2e'};
   border-radius: 10px;
   margin: 10px;
   padding: 15px;
-  color: white;
+  color: ${props=>props.active ? '#b94666' : 'white'};
   cursor: pointer;
   height: auto;
   width: auto;
@@ -26,18 +26,22 @@ const Dice = styled.div`
     color: white;
   }
 
-  &:hover,
-  &:active {
-    color: red;
-    border-color: red;
+  &:hover{
+    color: #b94666;
   }
 `;
 
 const Card = props => {  
+  const [active,setActive] = useState(false);
   let die = props.die;
 
+  const _setActive = die => {
+    props.setDie(die);
+    setActive(!active);
+  }
+
   return (
-    <Dice className="Dice" onClick={() => props.setDie(die)}>
+    <Dice className="Dice" onClick={()=>props.setDie(die)} active={active}>
       <h4>{die.name}</h4>
       <p>Sides: {die.sides}</p>
     </Dice>
