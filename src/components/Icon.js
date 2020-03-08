@@ -36,7 +36,7 @@ const Icon = props => {
   return (
     <IconBox className='icon-box'>
         <IconSVG
-        size={props.size === "lg" ? 100 : 50}
+        size={(props.size === "lg" && 150) || (props.size === "md" && 80) || (props.size === 'sm' && 50)}
         src={`../icons/dice-${props.die.name}.svg`}
         rgb={calcColor([185, 70, 102], [46, 169, 189], index)}
         name={props.die.name}              

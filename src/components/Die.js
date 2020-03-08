@@ -35,9 +35,11 @@ const Dice = styled.div`
 
 const H1 = styled.h1`
   color: #b94666;
+  font-size: 35pt;
 `;
 const H3 = styled.h3`
   color: #2ea9bd;
+  font-size: 25pt;
 `;
 
 const Box = styled.div`
@@ -163,14 +165,19 @@ const Roller = styled(SplitButton)`
     background-color: #b94666;
     background-color: ${props=>props.vantage==='Normal' ? '#b94666' : '#2ea9bd'};
     border-radius: 0;
-    height: 3em;
+    height: 100%;
     font-size: 12pt;
     transition: all 0.5s ease;
-    
+
     &:hover{
       background-color: #843148;
       background-color: ${props=>props.vantage==='Normal' ? '#843148' : '#0e7d8f'};
     }
+  }
+  .p-button-text {    
+    font-size: 25pt;
+    line-height: 1;
+    white-space: nowrap;
   } 
   .p-button-text-only { width: 90%; }
   .p-button-icon-only { width: 10%; }
@@ -216,8 +223,8 @@ const Die = props => {
           <DieList>{diceList()}</DieList>
           </QtyBox> 
           <Modifier rmodifier={props.rmodifier} modifier={props.modifier} die={die} />
-          <Roller vantage={vantage.label} label={vantage.value ? `Roll (${vantage.label})` : 'Roll'} onClick={() => props.rolled(die, die.qty, die.modifier, vantage)} model={vantages}></Roller>          
-          <Result roll={props.roll} />
+          <Roller vantage={vantage.label} label={vantage.value ? `Roll ${vantage.label}` : 'Roll'} onClick={() => props.rolled(die, die.qty, die.modifier, vantage)} model={vantages}></Roller>          
+          <Result diceList={diceList()} roll={props.roll} />
         </RollBox>
       </Box>
     </Dice>

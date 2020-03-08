@@ -9,8 +9,13 @@ import 'primeicons/primeicons.css';
 
 const Heading = styled.h1`
   color: white;
-  font-size: 50pt;
-  margin-top: 0;
+  font-size: 60pt;
+  margin: 0;
+  -webkit-user-select: none;  
+  -moz-user-select: none;    
+  -ms-user-select: none;      
+  user-select: none;
+  padding-top: 50px;
 `;
 
 const Top = styled.div`
@@ -22,6 +27,7 @@ const Top = styled.div`
   border-radius: 30px 30px 0 0;
   background: rgb(36,37,39);
   background: linear-gradient(to right top, #242527, #25242d, #2b222f, #351e2d, #3e1925);
+  filter: brightness(1.1);
 `;
 
 const Body = styled.div`
@@ -34,7 +40,8 @@ const Body = styled.div`
 const CardBox = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: center;  
+  margin-top: 50px;
 `;
 
 const diceList = [

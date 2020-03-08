@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import Icon from './Icon'
 
-const Dice = styled.div`  
+const CardBox = styled.div`  
   background: #3b3d44;
   box-shadow: 0px 0px 6px 0px #331f2e;
   border-radius: 10px;
@@ -13,10 +13,10 @@ const Dice = styled.div`
   cursor: pointer;
   height: 100%;
   width: auto;
-  transition: 0.2s ease-in-out;
+  transition: 0.1s ease;
   position: relative;  
   flex: none;
-  width: 100px;
+  width: 110px;
   filter: ${props=>props.active ? 'brightness(1)': 'brightness(.8)' };
   span {
     position: relative;
@@ -30,7 +30,7 @@ const Dice = styled.div`
   }
 
   &:hover{
-    color: #b94666;
+    filter: brightness(1.5);
   }
 `;
 
@@ -50,11 +50,11 @@ const Card = props => {
 //<h4>{die.name}</h4>
 //<p>{die.sides} Sides</p>
   return (
-    <Dice className="Dice" onClick={()=>_setActive(die)} active={props.active === null || props.active === props.index}>
+    <CardBox className="Dice" onClick={()=>_setActive(die)} active={props.active === null || props.active === props.index}>
       {props.active !== props.index && (<></>)}
       
-      <Icon die={die} index={props.index} size='sm'/>
-    </Dice>
+      <Icon die={die} index={props.index} size='md'/>
+    </CardBox>
   );
 };
 

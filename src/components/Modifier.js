@@ -24,11 +24,14 @@ const ModSelect = styled(SelectButton)`
   display: inline-block;
   &&&& {
     .p-highlight {
-      background-color: #b94666;
-      border-color: #b94666;
+      background-color: #2ea9bd;
+      border-color: #2ea9bd;
       &:hover {
-        background-color: #843148;
-        border-color: #b94666;
+        background-color: #0e7d8f;
+        border-color: #2ea9bd;
+      }
+      &:focus{
+      box-shadow: 0 0 2px 0.2em #2ea9bd;
       }
     }
     .p-focus {
@@ -50,13 +53,16 @@ const ModSelect = styled(SelectButton)`
 `;
 
 const ModButton = styled(Button)`
-&&{
+&&&&{
   display: inline-block;
   border-radius: 10px;
   background: white;
   margin: 0 10px;
   cursor: pointer;
   background-color: #2ea9bd;
+  .p-button-text {
+    font-size: 16pt;
+  }
   &:hover {
     color: #242527;
     background: white;
@@ -106,9 +112,12 @@ const ModGroup = styled.div`
 `;
 
 const ToggleButton = styled(Button)`
-&&&{
+&&&&{  
   color: ${props=>props.toggle === 'true' ? 'white' : '#0e7d8f'};
   background-color: ${props=>props.toggle === 'true' ? '#2ea9bd' : 'white'};  
+  .p-button-text {
+    font-size: 16pt;
+  }
     &:focus,&.p-button-secondary:hover{
         color: ${props=>props.toggle === 'true' ? 'white' : '#0e7d8f'};
         background-color: #0e7d8f;
@@ -185,7 +194,7 @@ const Modifier = props => {
             options={options}
             onChange={e => setModType(e.value)}
           />
-          <ModSpinner value={mod} onChange={handleInput} min={1} max={10} />
+          <ModSpinner value={mod} onChange={handleInput} min={1} max={100} />
           <Button className='secondary' label="Add" />
         </ModGroup>
       </ModForm>
