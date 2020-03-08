@@ -43,7 +43,7 @@ const Card = props => {
   return (
     <Dice className="Dice" onClick={()=>props.setDie(die)} active={active}>
       <h4>{die.name}</h4>
-      <p>Sides: {die.sides}</p>
+      <p>{die.sides} Sides</p>
     </Dice>
   );
 };

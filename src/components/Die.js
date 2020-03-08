@@ -3,9 +3,7 @@ import { SelectButton } from "primereact/selectbutton";
 import { Button } from "primereact/button";
 import { SplitButton } from "primereact/splitbutton";
 import { Spinner } from 'primereact/spinner';
-
 import styled from "styled-components";
-
 import Modifier from "./Modifier";
 import Result from "./Result";
 
@@ -15,17 +13,14 @@ const Dice = styled.div`
   margin: 20px auto;
   padding: 15px;
   color: #b94666;
-  cursor: pointer;
   height: 50vh;
   width: 100%;  
   transition: 0.2s ease-in-out;
   position: relative;
-
   span {
     position: relative;
     display: block;
   }
-
   &&&{
     .secondary {
       background-color: #2ea9bd;      
@@ -39,8 +34,7 @@ const Dice = styled.div`
         border: 0;
       }
     }
-  }
-  
+  }  
 `;
 
 const H1 = styled.h1`
@@ -50,20 +44,6 @@ const H3 = styled.h3`
   color: #2ea9bd;
 `;
 
-const InputButton = styled.button`
-  border-radius: 10px;
-  border: 1px solid white;
-  color:#242527;
-  background: white;
-  margin-top: 30px;
-  cursor: pointer;
-  font-size: 15pt;
-  &:hover {
-    color: white;
-    background: red;
-  }
-`;
-
 const Box = styled.div`
   display: flex;
   flex-direction: row;
@@ -71,15 +51,20 @@ const Box = styled.div`
   height: 100%;
 `;
 const TitleBox = styled.div`
-  flex-grow: 1;
+  flex: 0 0 40%;
   height: 100%;
 `;
 const RollBox = styled.div`
-  flex-grow: 1;
+  flex: 0 0 60%;
   background: #3b3d44;
   height: 100%;
   border-radius: 30px;
   padding: 30px;
+`;
+
+const QtyBox = styled.div`
+  margin-top: 15px;
+  margin-bottom: 15px;
 `;
 
 const DieVis = styled.div`
@@ -92,8 +77,7 @@ const DieVis = styled.div`
 const Increment = styled(Spinner)`
 &&&{
   display: block;
-  width: 30%;
-  
+  width: 30%;  
   max-width: 200px;
   margin: auto;
   box-sizing: border-box;
@@ -110,7 +94,7 @@ const Increment = styled(Spinner)`
     position: absolute;
     top:0;
     height: 100%;
-
+    cursor: pointer;
     span {
       transform: rotate(90deg);
     }
@@ -126,7 +110,6 @@ const Increment = styled(Spinner)`
     &.p-spinner-button-down{
       left: 0;
     }
-
   }
 }
 `;
@@ -136,17 +119,24 @@ const Roller = styled(SplitButton)`
   width: 50%;
   display: block;
   margin: auto;
-  max-width: 200px;
-  /*background-color: #b94666;   */
-  background-color: ${props=>props.label==='Roll' ? '#b94666' : '#2ea9bd'};
+  margin-top: 15px;
+  margin-bottom: 15px;
+  /*max-width: 250px;*/  
+ 
+
   button {
     background-color: #b94666;
+    background-color: ${props=>props.vantage==='Normal' ? '#b94666' : '#2ea9bd'};
     border-radius: 0;
+    height: 3em;
+    font-size: 12pt;
+    transition: all 0.5s ease;
+    
     &:hover{
       background-color: #843148;
+      background-color: ${props=>props.vantage==='Normal' ? '#843148' : '#0e7d8f'};
     }
   } 
-
   .p-button-text-only { width: 90%; }
   .p-button-icon-only { width: 10%; }
   }
@@ -195,29 +185,19 @@ const Die = props => {
       <Box>
         <TitleBox>
           <H1>{die.name}</H1>
-          <H3>Sides: {die.sides}</H3>
+          <H3>{die.sides} Sides</H3>
         </TitleBox>
         <RollBox>  
+          <QtyBox>
           <Increment value={die.qty} onChange={(e) => setQty(e.value)} min={1} max={10} />
           {dicevis()}          
-          <br />
-          {die.modifier.map((modifier, index) => (
-            //<Modifier mod={modifier} key={index}/>
-            <InputButton
-              key={index}
-              onClick={() => props.rmodifier(die, modifier)}
-            >
-              {modifier}
-            </InputButton>
-          ))}
+          </QtyBox>          
           {die.modifier.length < 3 ? (
-            <Modifier modifier={props.modifier} die={die} />
+            <Modifier rmodifier={props.rmodifier} modifier={props.modifier} die={die} />
           ) : (
             <h4>Remove a modifier to add a new one</h4>
           )}
-          <br />
-          <Roller label={vantage.value ? 'Roll with ' + vantage.label : 'Roll'} onClick={() => props.rolled(die, die.qty, die.modifier, vantage.value)} model={vantages}></Roller>
-          <br />
+          <Roller vantage={vantage.label} label={vantage.value ? `Roll (${vantage.label})` : 'Roll'} onClick={() => props.rolled(die, die.qty, die.modifier, vantage.value)} model={vantages}></Roller>          
           <Result roll={props.roll} />
         </RollBox>
       </Box>
