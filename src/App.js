@@ -38,19 +38,20 @@ const CardBox = styled.div`
 `;
 
 const diceList = [
-  { name: "d4", sides: 4, qty: 1, modifier: [], vantage: null },
-  { name: "d6", sides: 6, qty: 1, modifier: [], vantage: null },
-  { name: "d8", sides: 8, qty: 1, modifier: [], vantage: null },
-  { name: "d10", sides: 10, qty: 1, modifier: [], vantage: null },
-  { name: "d12", sides: 12, qty: 1, modifier: [], vantage: null },
-  { name: "d20", sides: 20, qty: 1, modifier: [], vantage: null },
-  { name: "Percentile", sides: 100, qty: 1, modifier: [], vantage: null }
+  { name: "d4", sides: 4, qty: 1, modifier: [], vantage: null, active: false },
+  { name: "d6", sides: 6, qty: 1, modifier: [], vantage: null, active: false },
+  { name: "d8", sides: 8, qty: 1, modifier: [], vantage: null, active: false },
+  { name: "d10", sides: 10, qty: 1, modifier: [], vantage: null, active: false },
+  { name: "d12", sides: 12, qty: 1, modifier: [], vantage: null, active: false },
+  { name: "d20", sides: 20, qty: 1, modifier: [], vantage: null, active: false },
+  { name: "Percentile", sides: 100, qty: 1, modifier: [], vantage: null, active: false }
 ];
 
 function App() {
   const [roll, setRoll] = useState([]);
   const [dice, setDice] = useState(diceList);
   const [die, setDie] = useState(null);
+  const [active,setActive] = useState(null);
 
   const randomise = (min, max, qty, vantage) => {
     let roll = [];    
@@ -147,6 +148,8 @@ function App() {
             setDie={_toggle}
             key={index}
             index={index}
+            active={active}
+            setActive={setActive}
           />
         ))}
       </CardBox>   
