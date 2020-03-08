@@ -3,8 +3,7 @@ import styled from "styled-components";
 
 import Icon from './Icon'
 
-const Dice = styled.div`
-  display: inline-block;
+const Dice = styled.div`  
   background: #3b3d44;
   box-shadow: ${props=>props.active ? '0px 0px 5px 1px #b94666' : '0px 0px 6px 0px #331f2e'};
   border-radius: 10px;
@@ -12,10 +11,12 @@ const Dice = styled.div`
   padding: 15px;
   color: ${props=>props.active ? '#b94666' : 'white'};
   cursor: pointer;
-  height: auto;
+  height: 100%;
   width: auto;
   transition: 0.2s ease-in-out;
-  position: relative;
+  position: relative;  
+  flex: none;
+  width: 100px;
 
   span {
     position: relative;

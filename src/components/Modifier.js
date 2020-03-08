@@ -9,7 +9,7 @@ const ModifierBox = styled.div`
   margin-bottom: 15px;
   &&&{
   .secondary{     
-      background-color: #2ea9bd;
+      background-color: #2ea9bd;      
       &:hover,&:focus{
         background-color: #0e7d8f;
       }
@@ -70,6 +70,10 @@ const ModSpinner = styled(Spinner)`
     display: inline-block;
     input {
       width: 100%;
+      font-size: 18pt;
+      line-height: 1;
+      padding: 5px;
+      height: 100%;
     }
     button {
       border-radius: 0;
@@ -103,10 +107,10 @@ const ModGroup = styled.div`
 
 const ToggleButton = styled(Button)`
 &&&{
-  color: ${props=>props.toggle === 'true' ? 'white' : '#25242c'};
+  color: ${props=>props.toggle === 'true' ? 'white' : '#0e7d8f'};
   background-color: ${props=>props.toggle === 'true' ? '#2ea9bd' : 'white'};  
     &:focus,&.p-button-secondary:hover{
-        color: ${props=>props.toggle === 'true' ? 'white' : '#25242c'};
+        color: ${props=>props.toggle === 'true' ? 'white' : '#0e7d8f'};
         background-color: #0e7d8f;
         background-color: ${props=>props.toggle === 'true' ? '#0e7d8f' : '#c8c8c8'};
       }
@@ -136,12 +140,6 @@ const Modifier = props => {
   ];
 
   let die = props.die;
-
-  /*
-  const _setmod = val => {
-    modType === val ? setModType("") : setModType(() => val);
-  };
-  */
 
   const handleInput = input => {
     setMod(input.target.value);

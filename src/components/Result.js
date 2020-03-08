@@ -7,27 +7,27 @@ const Title = styled.h3`
   margin: 5px;
 `;
 
+const Highlight = styled.span`
+&&&{
+    color: #2ea9bd;
+    display: inline-block;   
+    margin: 0 10px; 
+}
+`;
+
 const Num = styled.h4`
-  color: #704551;
+  color: #b94666;
   display: inline-block;
   font-size: 25pt;
   margin: 5px;
 `;
 
-/*
-const Button = styled.button`
-  width: 60px;
-  height: 50px;
-  border-radius: 20px;
-  border: 1px solid white;
-  color: white;
-  background: transparent;
-  cursor: pointer;
-  &:hover {
-    color: #242527;
-    background: white;
-  }
-`;*/
+
+const Highlighted = (value) => {
+return(
+<Highlight>{value}</Highlight>
+  );
+}
 
 const Result = props => {
   const diceName = props.roll[0];
@@ -37,16 +37,14 @@ const Result = props => {
   const modifier = props.roll[4];
   const vantage = props.roll[5]
 
-  //<Button>Roll</Button>
   return (
     <>
       {results ? (
         <>
           <Title>
             {diceName === "Percentile" ? diceName : diceQty + diceName}
-            {modifier && modifier.length > 0 && ` ( ${modifier} )`}
-            {vantage && ` ( ${vantage} )`}
-            
+            {modifier && modifier.length > 0 && ` (${modifier}) `}
+            <Highlight>{vantage && vantage.label!=='Normal' && vantage.label}</Highlight>        
           </Title>
           {results.map((result, index) => (
             <Num key={index}>
@@ -54,7 +52,7 @@ const Result = props => {
               {results.length > 0 && index < results.length - 1 && ", "}
             </Num>
           ))}{modifier && modifier.length > 0 && ` ( ${modifier} )`}
-          <Title>Result: {sum}</Title>
+          <Title>Result:<Highlight>{sum}</Highlight></Title>
         </>
       ) : (
         <Title>Roll something!</Title>

@@ -9,6 +9,7 @@ import Icon from "./Icon";
 const Dice = styled.div`
   border-radius: 50px;
   background: #2c222f;
+  background: #3b3d44;
   margin: 20px auto;
   padding: 15px;
   color: #b94666;
@@ -16,10 +17,6 @@ const Dice = styled.div`
   width: 100%;  
   transition: 0.2s ease-in-out;
   position: relative;
-  span {
-    position: relative;
-    display: block;
-  }
   &&&{
     .secondary {
       background-color: #2ea9bd;      
@@ -47,18 +44,31 @@ const Box = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   height: 100%;
 `;
 const TitleBox = styled.div`
   flex: 0 0 40%;
   height: 100%;
+  border-radius: 30px;
+  background: #2c222f;
+  box-shadow: -2px 5px 12px 0px #242528;
 `;
 const RollBox = styled.div`
-  flex: 0 0 60%;
-  background: #3b3d44;
+  flex: 0 0 58%;
   height: 100%;
   border-radius: 30px;
   padding: 30px;
+  &&&{    
+    .p-button-text {
+      font-size: 20pt;
+      line-height: 1;
+      font-weight: bold;
+    }
+    .p-menuitem {
+      font-size: 18pt;
+    }
+  }
 `;
 
 const QtyBox = styled.div`
@@ -66,11 +76,35 @@ const QtyBox = styled.div`
   margin-bottom: 15px;
 `;
 
-const DieVis = styled.div`
-  display: inline-block;
-  background: red;
-  color: white;
-  margin: 0 10px;
+const DieList = styled.div`  
+&&&{
+    display: block;  
+    margin: 15px 0;
+    .icon-box {      
+      display: inline-block;
+      margin: 0 10px;
+      transition: 0.2s ease;
+      /*&:hover{animation: pulse .5s infinite;}*/
+    }
+    @keyframes pulse {
+    0% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(70deg);
+    }
+    50% {
+      transform: rotate(0deg);
+    }
+    75% {
+      transform: rotate(-70deg);
+
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+}
 `;
 
 const Increment = styled(Spinner)`
@@ -86,7 +120,9 @@ const Increment = styled(Spinner)`
     text-align: center;
     padding: 15px 0 !important;    
     width: 100%;
-    
+    font-size: 18pt;
+    font-weight: bold;
+    color: #b94666;    
   }
   button {
     display: inline-block;
@@ -147,29 +183,15 @@ const Die = props => {
     { label: "Advantage", value: "advantage",command: (e)=>{ setVantage(vantages[1]) } },
     { label: "Disadvantage", value: "disadvantage",command: (e)=>{ setVantage(vantages[2]) } }
   ];
-
-  //const [modType, setModType] = useState("");
-  //const [mod, setMod] = useState("");
   const [vantage, setVantage] = useState(vantages[0]);
 
-  /*const options = [
-    { label: "None", value: null },
-    { label: "Advantage", value: "advantage" },
-    { label: "Disadvantage", value: "disadvantage" }
-  ];
-  */
-
   let die = props.die;
-
- /* const handleInput = input => {
-    setMod(input.target.value);
-  };
-*/
-  function dicevis() {
+  const diceList = () => {
     let dice = [];
     let i = 1;
     while (i <= die.qty) {
-      dice.push(<DieVis key={i}>{i}</DieVis>);
+      //dice.push(<DieVis key={i}>{i}</DieVis>);
+      dice.push(<Icon die={die} index={die.index} key={i} size='sm' inline/>);
       i++;
     }
     return dice;
@@ -184,21 +206,17 @@ const Die = props => {
     <Dice className="Dice">
       <Box>
         <TitleBox>
+          <Icon die={die} index={die.index} size='lg' className='App-logo'/>
           <H1>{die.name}</H1>
-          <H3>{die.sides} Sides</H3>
-          <Icon die={die} index={die.index} size='lg'/>
+          <H3>{die.sides} Sides</H3>          
         </TitleBox>
         <RollBox>  
           <QtyBox>
           <Increment value={die.qty} onChange={(e) => setQty(e.value)} min={1} max={10} />
-          {dicevis()}          
-          </QtyBox>          
-          {die.modifier.length < 3 ? (
-            <Modifier rmodifier={props.rmodifier} modifier={props.modifier} die={die} />
-          ) : (
-            <h4>Remove a modifier to add a new one</h4>
-          )}
-          <Roller vantage={vantage.label} label={vantage.value ? `Roll (${vantage.label})` : 'Roll'} onClick={() => props.rolled(die, die.qty, die.modifier, vantage.value)} model={vantages}></Roller>          
+          <DieList>{diceList()}</DieList>
+          </QtyBox> 
+          <Modifier rmodifier={props.rmodifier} modifier={props.modifier} die={die} />
+          <Roller vantage={vantage.label} label={vantage.value ? `Roll (${vantage.label})` : 'Roll'} onClick={() => props.rolled(die, die.qty, die.modifier, vantage)} model={vantages}></Roller>          
           <Result roll={props.roll} />
         </RollBox>
       </Box>

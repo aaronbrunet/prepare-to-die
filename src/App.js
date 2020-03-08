@@ -31,6 +31,12 @@ const Body = styled.div`
   display: block;
 `;
 
+const CardBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
+
 const diceList = [
   { name: "d4", sides: 4, qty: 1, modifier: [], vantage: null },
   { name: "d6", sides: 6, qty: 1, modifier: [], vantage: null },
@@ -47,7 +53,7 @@ function App() {
   const [die, setDie] = useState(null);
 
   const randomise = (min, max, qty, vantage) => {
-    let roll = [];
+    let roll = [];    
     for (let i = 0; i < qty; i++) {
       let rand = Math.round(min + Math.random() * (max - min));
       if(vantage){
@@ -89,11 +95,12 @@ function App() {
     setRoll([]);
   };
 
-  const _rolled = (die, qty, modifier, vantage) => {
+  const _rolled = (die, qty, modifier, vantageArr) => {
     const min = 1;
     const max = die.sides;
     let roll = [];
     let result;
+    let vantage = vantageArr.value;
     if (modifier && modifier.length > 0) {
         roll = randomise(min, max, qty, vantage);
         result = roll.reduce((a, b) => parseInt(a) + parseInt(b), 0);
@@ -102,17 +109,16 @@ function App() {
           let curr = modifier[mod];
           //history += curr;
           if (curr !== "undefined") {
-            curr = curr.replace(/[^-()\d/*+.]/g, "");
-            curr = result + curr;
+            curr = result + curr.replace(/[^-()\d/*+.]/g, "");
+            //curr = result + curr;
             result = eval(curr);
           }
-        //}
       }
     } else {
       roll = randomise(min, max, qty, vantage);
       result = roll.reduce((a, b) => parseInt(a) + parseInt(b), 0);
     }
-    setRoll([die.name, die.qty, roll, result, modifier, vantage]);
+    setRoll([die.name, die.qty, roll, result, modifier, vantageArr]);
     console.log(roll);
   };
 
@@ -134,7 +140,7 @@ function App() {
       <Heading>
         R<span style={{ color: "#b94666" }}>&</span>ller
       </Heading>
-      <div className="card-container">
+      <CardBox>
         {dice.map((die, index) => (
          <Card
             die={die}
@@ -143,7 +149,7 @@ function App() {
             index={index}
           />
         ))}
-      </div>   
+      </CardBox>   
       </Top>
       <Body>
       {die &&   
