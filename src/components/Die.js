@@ -212,6 +212,8 @@ const Die = props => {
   return (
     <Dice className="Dice">
       <Box>
+        {die ? (
+          <>
         <TitleBox>
           <Icon die={die} index={die.index} size='lg' className='App-logo'/>
           <H1>{die.name}</H1>
@@ -226,6 +228,18 @@ const Die = props => {
           <Roller vantage={vantage.label} label={vantage.value ? `Roll ${vantage.label}` : 'Roll'} onClick={() => props.rolled(die, die.qty, die.modifier, vantage)} model={vantages}></Roller>          
           <Result diceList={diceList()} roll={props.roll} />
         </RollBox>
+        </>)
+        : (<>
+        <TitleBox>
+            <H1>Prepare to Die</H1>      
+        </TitleBox>
+        <RollBox>
+          <H3>Choose a die to begin rolling</H3>
+        </RollBox>
+        </>)
+          }
+          
+
       </Box>
     </Dice>
   );

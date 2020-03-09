@@ -37,20 +37,24 @@ const Highlighted = value => {
 };
 
 const Result = props => {
-  const diceName = props.roll[0];
+
+  let [name,qty,results,sum,modifier,vantage] = props.roll;
+
+  /*const diceName = props.roll[0];
   const diceQty = props.roll[1];
   const results = props.roll[2];
   const sum = Math.floor(props.roll[3]);
   const modifier = props.roll[4];
   const vantage = props.roll[5];
-  const type = diceName === 'Percentile';
+  const type = diceName === 'Percentile';*/
+  const type = name === 'Percentile';
 
   return (
     <ResultBox>
       {results ? (
         <>
           <Title>
-            {type ? diceName : diceQty + diceName}            
+            {type ? name : qty + name}            
             <Highlight>
               {modifier && modifier.length > 0 && ` (${modifier}) `}
               {vantage && vantage.label !== "Normal" && `(${vantage.label})`}

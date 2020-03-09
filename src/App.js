@@ -59,6 +59,7 @@ function App() {
   const [dice, setDice] = useState(diceList);
   const [die, setDie] = useState(null);
   const [active,setActive] = useState(null);
+  const [history,updateHistory] = useState([]);
 
   const randomise = (min, max, qty, vantage) => {
     let roll = [];    
@@ -119,14 +120,16 @@ function App() {
           if (curr !== "undefined") {
             curr = result + curr.replace(/[^-()\d/*+.]/g, "");
             //curr = result + curr;
-            result = eval(curr);
+            result = Math.floor(eval(curr));
           }
       }
     } else {
       roll = randomise(min, max, qty, vantage);
       result = roll.reduce((a, b) => parseInt(a) + parseInt(b), 0);
     }
-    setRoll([die.name, die.qty, roll, result, modifier, vantageArr]);
+    let newRoll = [die.name, die.qty, roll, result, modifier, vantageArr];
+    setRoll(newRoll);    
+    updateHistory([...history,newRoll]);
     console.log(roll);
   };
 
@@ -162,8 +165,7 @@ function App() {
       </CardBox>   
       </Top>
       <Body>
-      {die &&   
-        (<Die
+      <Die
           die={die}
           rolled={_rolled}
           update={_updateDie}
@@ -172,7 +174,8 @@ function App() {
           rmodifier={_removeModifier}
           setDie={_toggle}
           roll={roll}
-        />)}
+          history={history}
+        />
         </Body>      
     </div>
   );
