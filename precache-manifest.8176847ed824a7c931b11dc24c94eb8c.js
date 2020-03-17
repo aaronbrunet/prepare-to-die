@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "370225ba326fdcdd6dfb914a0bb8b1b0",
+    "revision": "08dce5ec063fda2ac408f324e901e557",
     "url": "/prepare-to-die/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/prepare-to-die/static/css/2.b4baad78.chunk.css"
   },
   {
-    "revision": "6ddec72fe661f0f047e7",
+    "revision": "4374075dc28ff86ade8c",
     "url": "/prepare-to-die/static/css/main.870abc16.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/prepare-to-die/static/js/2.e674a1d8.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "6ddec72fe661f0f047e7",
-    "url": "/prepare-to-die/static/js/main.e2c8a4b1.chunk.js"
+    "revision": "4374075dc28ff86ade8c",
+    "url": "/prepare-to-die/static/js/main.dc9bd09b.chunk.js"
   },
   {
     "revision": "8708b734add11e5c1354",
