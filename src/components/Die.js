@@ -221,7 +221,7 @@ const Die = props => {
         </TitleBox>
         <RollBox>  
           <QtyBox>
-          <Increment value={die.qty} onChange={(e) => setQty(e.value)} min={1} max={10} />
+          <Increment value={die.qty} onChange={(e) => setQty(e.value)} min={1} />
           <DieList>{diceList()}</DieList>
           </QtyBox> 
           <Modifier rmodifier={props.rmodifier} modifier={props.modifier} die={die} />

@@ -42,6 +42,12 @@ const CardBox = styled.div`
   flex-direction: row;
   justify-content: center;  
   margin-top: 50px;
+
+  @media only screen and (max-width:800px){
+    width: 100%;
+    margin: auto;
+  }
+
 `;
 
 const diceList = [

@@ -12,6 +12,12 @@ const IconSVG = styled(ReactSVG)`
       props.size+'px'};
     fill: #2ea9bd;
     fill: ${props => (props.rgb ? props.rgb : "#2ea9bd")};
+
+    @media screen and (max-width:500px){
+      width: 30px;
+    width: ${props =>
+      props.name === "Percentile" ? (props.size * 0.6)+'px' : (props.size * .8)+'px'};
+    }
   }
 `;
 const IconBox = styled.div`
@@ -36,8 +42,8 @@ const Icon = props => {
   return (
     <IconBox className='icon-box'>
         <IconSVG
-        size={(props.size === "lg" && 150) || (props.size === "md" && 80) || (props.size === 'sm' && 50)}
-        src={`../icons/dice-${props.die.name}.svg`}
+        size={(props.size === "lg" && 150) || (props.size === "md" && 80) || (props.size === 'sm' && 50) || (props.size === 'xs' && 30)}
+        src={`./icons/dice-${props.die.name}.svg`}
         rgb={calcColor([185, 70, 102], [46, 169, 189], index)}
         name={props.die.name}              
         />
