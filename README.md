@@ -5,8 +5,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Or dice - we've got them all. D4, D6, D8, D10, D12, D20, D%. You want them, we roll them.
 
 
-## Dependencies
-    * @material-ui [deprecated in pre-alpha]
+## Dependencies    
     * classnames
     * primeicons
     * primereact
@@ -14,3 +13,4 @@ Or dice - we've got them all. D4, D6, D8, D10, D12, D20, D%. You want them, we r
     * react-transition-group
     * styled-components
     * framer [pending]
+    * ~~@material-ui~~ [deprecated in pre-alpha]
