@@ -13,4 +13,4 @@ Or dice - we've got them all. D4, D6, D8, D10, D12, D20, D%. You want them, we r
     * react-transition-group
     * styled-components
     * framer [pending]
-    * ~~@material-ui~~ [deprecated in pre-alpha]
+    * ~@material-ui~ [deprecated in pre-alpha]

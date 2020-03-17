@@ -10,12 +10,18 @@ import 'primeicons/primeicons.css';
 const Heading = styled.h1`
   color: white;
   font-size: 60pt;
-  margin: 0;
+  margin: -15px 0;
   -webkit-user-select: none;  
   -moz-user-select: none;    
   -ms-user-select: none;      
   user-select: none;
   padding-top: 50px;
+`;
+
+const SubHeading = styled.h3`
+  font-size: 30pt;
+  color: #2ea9bd;
+  margin: 0 auto -30px auto;
 `;
 
 const Top = styled.div`
@@ -157,6 +163,9 @@ function App() {
       <Heading>
         R<span style={{ color: "#b94666" }}>&</span>ller
       </Heading>
+      <SubHeading>
+        Prepare To Die
+      </SubHeading>
       <CardBox>
         {dice.map((die, index) => (
          <Card
