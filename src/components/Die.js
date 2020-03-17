@@ -196,7 +196,7 @@ const Die = props => {
   const diceList = () => {
     let dice = [];
     let i = 1;
-    while (i <= die.qty) {
+    while (i <= die.qty && i <=10) {
       //dice.push(<DieVis key={i}>{i}</DieVis>);
       dice.push(<Icon die={die} index={die.index} key={i} size='sm' inline/>);
       i++;
