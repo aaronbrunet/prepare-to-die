@@ -112,6 +112,7 @@ function App() {
   };
   const _clearAll = die => {
     die.modifier = [];
+    die.qty = 1;
     setDice(dice.map(dice => (dice.name.match(die.name) ? die : dice)));
     setRoll([]);
   };
