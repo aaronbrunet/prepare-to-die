@@ -61,6 +61,7 @@ const RollBox = styled.div`
   height: 100%;
   border-radius: 30px;
   padding: 30px;
+  opacity: ${props=>props.inactive ? .5 : 1};
   &&&{    
     .p-button-text {
       font-size: 20pt;
@@ -191,8 +192,10 @@ const Die = props => {
     { label: "Disadvantage", value: "disadvantage",command: (e)=>{ setVantage(vantages[2]) } }
   ];
   const [vantage, setVantage] = useState(vantages[0]);
+  const [result,setResult] = useState(props.roll);
 
   let die = props.die;
+
   const diceList = () => {
     let dice = [];
     let i = 1;
@@ -204,10 +207,21 @@ const Die = props => {
     return dice;
   }
   
+
+
   const setQty = qty => {
     die.qty = qty;
     props.update(die);
   }
+
+  const rollDie = (die, qty, modifier, vantage) =>{
+    props.rolled(die, qty, modifier, vantage);
+    console.log('props.roll: %o',props.roll);
+    setResult(props.roll);
+  }
+
+  
+  //<DieList>{diceList()}</DieList>
 
   return (
     <Dice className="Dice">
@@ -222,10 +236,10 @@ const Die = props => {
         <RollBox>  
           <QtyBox>
           <Increment value={die.qty} onChange={(e) => setQty(e.value)} min={1} />
-          <DieList>{diceList()}</DieList>
+          
           </QtyBox> 
           <Modifier rmodifier={props.rmodifier} modifier={props.modifier} die={die} />
-          <Roller vantage={vantage.label} label={vantage.value ? `Roll ${vantage.label}` : 'Roll'} onClick={() => props.rolled(die, die.qty, die.modifier, vantage)} model={vantages}></Roller>          
+          <Roller vantage={vantage.label} label={vantage.value ? `Roll ${vantage.label}` : 'Roll'} onClick={() => rollDie(die, die.qty, die.modifier, vantage)} model={vantages}></Roller>          
           <Result diceList={diceList()} roll={props.roll} />
         </RollBox>
         </>)
@@ -233,7 +247,7 @@ const Die = props => {
         <TitleBox>
             <H1>Prepare to Die</H1>      
         </TitleBox>
-        <RollBox>
+        <RollBox inactive>
           <H3>Choose a die to begin rolling</H3>
         </RollBox>
         </>)
