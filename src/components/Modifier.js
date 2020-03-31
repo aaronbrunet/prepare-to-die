@@ -180,7 +180,7 @@ const Modifier = props => {
           event.preventDefault();
           if (!modType || !mod) return;
           //props.modifier((mod+modType))
-          console.log(modType + mod);
+          //console.log(modType + mod);
           props.modifier(die, modType + mod);
           setMod(1);
           setModType("+");

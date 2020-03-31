@@ -13,8 +13,9 @@ const ResultBox = styled.div`
 
 const Title = styled.h3`
   color: white;
-  font-size: 30pt;
-  margin: 5px;
+  font-size: ${props=>props.inactive ? '20pt' : '30pt'};
+  margin: 5px;  
+  opacity: ${props=>props.inactive ? .3 : 1};
 `;
 
 const Highlight = styled.span`
@@ -37,8 +38,8 @@ const Highlighted = value => {
 };
 
 const Result = props => {
-
-  let [name,qty,results,sum,modifier,vantage] = props.roll;
+  const roll = props.roll;
+  const [name,qty,results,sum,modifier,vantage] = roll;
 
   /*const diceName = props.roll[0];
   const diceQty = props.roll[1];
@@ -72,7 +73,7 @@ const Result = props => {
           </Title>
         </>
       ) : (
-        <Title>Roll something!</Title>        
+        <Title inactive>Roll something!</Title>        
         
       )}
     </ResultBox>

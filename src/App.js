@@ -95,12 +95,14 @@ function App() {
       die.modifier.indexOf(modifier) === -1
         ? die.modifier.push(modifier)
         : die.modifier.pop(modifier);
-      console.log(die.name);
-      setDice(dice.map(dice => (dice.name.match(die.name) ? die : dice)));
+      //console.log(die.name);
+      _updateDie(die);
+      //setDice(dice.map(dice => (dice.name.match(die.name) ? die : dice)));
     }
   };
 
   const _updateDie = (die) => {
+    console.log('Die updated: %o',die);
     setDice(dice.map(dice => (dice.name.match(die.name) ? die : dice)));
   }
 
@@ -141,7 +143,8 @@ function App() {
       result = roll.reduce((a, b) => parseInt(a) + parseInt(b), 0);
     }
     let newRoll = [die.name, die.qty, roll, result, modifier, vantageArr];
-    setRoll(newRoll);    
+    setRoll(newRoll);  
+    console.log('set roll');
     updateHistory([...history,newRoll]);
     console.log(roll);
   };
